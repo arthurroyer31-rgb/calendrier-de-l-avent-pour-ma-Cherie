@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accès Privé — 11 Décembre 🔥</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: #0d131f;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+            min-height: 100vh;
+            padding: 24px 16px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        /* --- EN-TÊTE --- */
+        .header {
+            text-align: center;
+            background: linear-gradient(160deg, #331c0d, #1f1006);
+            border: 2px solid #d4a359;
+            border-radius: 20px;
+            padding: 24px 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
+        }
+        .badge {
+            display: inline-block;
+            background: rgba(212, 163, 89, 0.2);
+            color: #ffdf9e;
+            border: 1px solid #d4a359;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .header h1 {
+            color: #fff5e4;
+            font-size: 1.55rem;
+            margin-bottom: 10px;
+        }
+        .header p {
+            color: #ead7c3;
+            font-size: 0.95rem;
+            line-height: 1.55;
+        }
+
+        /* --- GRILLE POLAROID --- */
+        .gallery {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+            margin-bottom: 28px;
+        }
+
+        .photo-card {
+            background: #2b180a;
+            border: 2px solid #d4a359;
+            border-radius: 18px;
+            padding: 12px 12px 18px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.65);
+            transition: transform 0.3s ease;
+        }
+        .photo-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .image-wrapper {
+            position: relative;
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            aspect-ratio: 3 / 4;
+            background: #1a0e05;
+        }
+
+        .image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            filter: blur(22px) brightness(0.65);
+            transform: scale(1.08);
+            transition: filter 0.8s ease, transform 0.8s ease;
+        }
+
+        /* État révélé au clic */
+        .photo-card.revealed .image-wrapper img {
+            filter: blur(0) brightness(1);
+            transform: scale(1);
+        }
+
+        .reveal-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            background: rgba(13, 19, 31, 0.25);
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+        .photo-card.revealed .reveal-overlay {
+            opacity: 0;
+        }
+
+        .reveal-btn {
+            background: linear-gradient(135deg, #d4a359, #a67228);
+            color: #1a0e05;
+            font-weight: bold;
+            font-size: 0.92rem;
+            padding: 10px 18px;
+            border-radius: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+        }
+
+        .caption {
+            margin-top: 14px;
+            text-align: center;
+            font-size: 0.98rem;
+            color: #ffdf9e;
+            font-style: italic;
+            padding: 0 8px;
+        }
+
+        /* --- BOUTON RETOUR --- */
+        .btn-back {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 14px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #d4a359, #a67228);
+            color: #1a0e05;
+            font-weight: bold;
+            font-size: 1rem;
+            text-decoration: none;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s;
+        }
+        .btn-back:hover { transform: scale(1.02); }
+
+        /* --- LIGHTBOX PLEIN ÉCRAN --- */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 8, 15, 0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
+        .lightbox.active { display: flex; }
+        .lightbox img {
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: 12px;
+            border: 2px solid #d4a359;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <span class="badge">🔥 11 Décembre — Accès VIP</span>
+            <h1>Rien que pour vos yeux...</h1>
+            <p>Touchez chaque cliché pour le révéler (et re-cliquez dessus pour l'afficher en grand) 😏</p>
+        </div>
+
+        <div class="gallery" id="galleryContainer"></div>
+
+        <a href="index.html" class="btn-back">← Retourner à l'immeuble</a>
+    </div>
+
+    <!-- Plein écran au 2ème clic -->
+    <div class="lightbox" id="lightbox" onclick="this.classList.remove('active')">
+        <img id="lightboxImg" src="" alt="Agrandissement">
+    </div>
+
+    <script>
+        // ==========================================
+        // TES PHOTOS À CONFIGURER ICI
+        // ==========================================
+        const MES_PHOTOS = [
+            {
+                fichier: "photo cv.png", // Mets le nom exact de ton fichier image
+                legende: ""
+            },
+            {
+                fichier: "photo2.jpg",
+                legende: ""
+            },
+            {
+                fichier: "photo3.jpg",
+                legende: ""
+            }
+        ];
+
+        // ==========================================
+        // GÉNÉRATION DE LA GALERIE
+        // ==========================================
+        const container = document.getElementById('galleryContainer');
+
+        MES_PHOTOS.forEach((item, index) => {
+            const card = document.createElement('div');
+            card.className = 'photo-card';
+            card.innerHTML = `
+                <div class="image-wrapper" onclick="gererClicPhoto(this, '${item.fichier}')">
+                    <img src="${item.fichier}" alt="Photo ${index + 1}">
+                    <div class="reveal-overlay">
+                        <span class="reveal-btn">Toucher pour révéler 👀</span>
+                    </div>
+                </div>
+                <p class="caption">${item.legende}</p>
+            `;
+            container.appendChild(card);
+        });
+
+        function gererClicPhoto(wrapper, src) {
+            const card = wrapper.parentElement;
+            if (!card.classList.contains('revealed')) {
+                // 1er clic : enlève le flou
+                card.classList.add('revealed');
+            } else {
+                // 2ème clic : ouvre en plein écran
+                document.getElementById('lightboxImg').src = src;
+                document.getElementById('lightbox').classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>

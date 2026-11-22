@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Grand Final — 24 Décembre 🎄</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: #0d131f;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+            min-height: 100vh;
+            padding: 24px 16px 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 460px;
+            background: linear-gradient(160deg, #331c0d, #1f1006);
+            border: 2px solid #d4a359;
+            border-radius: 22px;
+            padding: 28px 22px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85), 0 0 25px rgba(212, 163, 89, 0.2);
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(212, 163, 89, 0.2);
+            color: #ffdf9e;
+            border: 1px solid #d4a359;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            color: #fff5e4;
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #ead7c3;
+            font-size: 0.92rem;
+            margin-bottom: 22px;
+            line-height: 1.5;
+        }
+
+        /* Barre de progression */
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 22px;
+        }
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #d4a359, #ffe08a);
+            transition: width 0.4s ease;
+        }
+
+        .question-title {
+            color: #ffdf9e;
+            font-size: 1.12rem;
+            margin-bottom: 18px;
+            line-height: 1.45;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 11px;
+            margin-bottom: 18px;
+        }
+
+        .option-btn {
+            width: 100%;
+            padding: 13px 16px;
+            background: rgba(0, 0, 0, 0.35);
+            border: 1.5px solid #8b5a2b;
+            border-radius: 12px;
+            color: #f5ebe0;
+            font-size: 0.98rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .option-btn:hover:not(:disabled) {
+            border-color: #d4a359;
+            background: rgba(212, 163, 89, 0.15);
+            transform: translateX(3px);
+        }
+        .option-btn.correct {
+            background: rgba(46, 160, 67, 0.3);
+            border-color: #56d364;
+            color: #fff;
+        }
+        .option-btn.wrong {
+            background: rgba(248, 81, 73, 0.28);
+            border-color: #ff7b7b;
+            color: #ffdcd7;
+        }
+
+        .feedback {
+            min-height: 24px;
+            font-size: 0.9rem;
+            color: #ffdf9e;
+            margin-bottom: 14px;
+            font-style: italic;
+        }
+
+        .btn-gold {
+            display: inline-block;
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #d4a359, #a67228);
+            color: #1a0e05;
+            font-weight: bold;
+            font-size: 1rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 6px;
+        }
+        .btn-gold:hover { transform: scale(1.02); }
+
+        .btn-secondary {
+            display: inline-block;
+            margin-top: 14px;
+            color: #d6c3b0;
+            font-size: 0.88rem;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(214, 195, 176, 0.4);
+            padding-bottom: 2px;
+        }
+
+        .final-box {
+            display: none;
+            animation: fadeIn 0.6s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .gift-reveal {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1.5px dashed #d4a359;
+            border-radius: 14px;
+            padding: 18px;
+            margin: 18px 0;
+            color: #fff5e4;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <span class="badge">🎄 24 Décembre — Épreuve Finale</span>
+
+        <!-- ÉCRAN DU QUIZ -->
+        <div id="quizSection">
+            <h1>Le QCM de Noël</h1>
+            <p class="subtitle">Dernière petite étape avant de débloquer votre cadeau du réveillon Ma Dame...</p>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <div class="question-title" id="questionText"></div>
+            <div class="options" id="optionsContainer"></div>
+            <div class="feedback" id="feedbackText"></div>
+            <button class="btn-gold" id="nextBtn" style="display: none;" onclick="questionSuivante()">Question suivante →</button>
+        </div>
+
+        <!-- ÉCRAN DE RÉSULTAT / CADEAU -->
+        <div class="final-box" id="finalSection">
+            <h1 id="finalTitle">Bravo mon amour ! ✨</h1>
+            <p class="subtitle" id="scoreText"></p>
+            <div class="gift-reveal" id="giftContent"></div>
+            <button class="btn-gold" id="retryBtn" style="display: none;" onclick="recommencerQuiz()">Retenter pour le sans-faute 😉</button>
+            <a href="index.html" class="btn-secondary">← Retourner à l'immeuble</a>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // CONFIGURATION DU QCM (À PERSONNALISER)
+        // ==========================================
+        const QUESTIONS = [
+            {
+                question: "1. Où a-t-on bu notre tout premier verre ensemble ?",
+                choix: [
+                    "Place de la Comédie",
+                    "Aux Food Runners (un mardi soir)",
+                    "Sur la Promenade du Peyrou",
+                    "À Port Marianne"
+                ],
+                bonneReponse: 1, // Index de la bonne réponse (0 = 1er choix, 1 = 2ème choix...)
+                commentaireOk: "Exactement ! Le début de tout ❤️",
+                commentaireFaux: "Oups ! C'était aux Food Runners un mardi soir 😉"
+            },
+            {
+                question: "2. Quelle est la qualité que j'admire le plus chez vous ?",
+                choix: [
+                    "Votre œil d'architecte d'intérieur",
+                    "Votre sourire et votre douceur",
+                    "Votre élégance",
+                    "Toutes les réponses ci-dessus (évidemment)"
+                ],
+                bonneReponse: 3,
+                commentaireOk: "Sans aucune hésitation ✨",
+                commentaireFaux: "Trop modeste ! La bonne réponse était évidemment toutes les réponses 😉"
+            },
+            {
+                question: "3. Depuis quelle date officielle avez-vous le meilleur chéri ?",
+                choix: [
+                    "Le 1er octobre",
+                    "Le 18 novembre",
+                    "Le 1er décembre",
+                    "Depuis toujours"
+                ],
+                bonneReponse: 1,
+                commentaireOk: "Date gravée dans le marbre 🗓️",
+                commentaireFaux: "Rappelez-vous de la question d'entrée de l'immeuble : le 18 novembre !"
+            },
+            {
+                question: "4. Quel est le programme idéal pour nous deux ?",
+                choix: [
+                    "Un bon resto en tête-à-tête",
+                    "Rester au chaud sous un plaid avec une infusion",
+                    "Une balade dans Montpellier",
+                    "Peu importe, tant qu'on est ensemble"
+                ],
+                bonneReponse: 3,
+                commentaireOk: "Meilleure réponse possible 🥰",
+                commentaireFaux: "C'est sympa aussi, mais la vraie réponse c'est : tant qu'on est ensemble ❤️"
+            }
+        ];
+
+        // Texte affiché une fois le QCM terminé (tu peux y mettre l'indice du code à 4 chiffres du Jour 1 !)
+        const CADEAU_FINAL_HTML = `
+            <strong>🎁 Votre surprise du Réveillon est débloquée !</strong><br><br>
+            Vous vous souvenez du <strong>code à 4 chiffres</strong> trouvé le 1er décembre ?<br>
+            Il est temps de l'utiliser... (ou venez me voir avec votre plus beau sourire pour récupérer votre cadeau 🎄✨)
+        `;
+
+        // ==========================================
+        // LOGIQUE DU QCM
+        // ==========================================
+        let indexActuel = 0;
+        let score = 0;
+
+        function afficherQuestion() {
+            const q = QUESTIONS[indexActuel];
+            document.getElementById('progressFill').style.width = `${(indexActuel / QUESTIONS.length) * 100}%`;
+            document.getElementById('questionText').innerText = q.question;
+            document.getElementById('feedbackText').innerText = "";
+            document.getElementById('nextBtn').style.display = "none";
+
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = "";
+
+            q.choix.forEach((texteChoix, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = texteChoix;
+                btn.onclick = () => verifierReponse(idx, btn);
+                container.appendChild(btn);
+            });
+        }
+
+        function verifierReponse(indexChoisi, boutonClique) {
+            const q = QUESTIONS[indexActuel];
+            const boutons = document.querySelectorAll('.option-btn');
+            boutons.forEach(b => b.disabled = true);
+
+            if (indexChoisi === q.bonneReponse) {
+                boutonClique.classList.add('correct');
+                document.getElementById('feedbackText').innerText = q.commentaireOk;
+                score++;
+            } else {
+                boutonClique.classList.add('wrong');
+                boutons[q.bonneReponse].classList.add('correct');
+                document.getElementById('feedbackText').innerText = q.commentaireFaux;
+            }
+
+            const nextBtn = document.getElementById('nextBtn');
+            nextBtn.innerText = (indexActuel === QUESTIONS.length - 1) ? "Découvrir mon cadeau 🎁" : "Question suivante →";
+            nextBtn.style.display = "inline-block";
+        }
+
+        function questionSuivante() {
+            indexActuel++;
+            if (indexActuel < QUESTIONS.length) {
+                afficherQuestion();
+            } else {
+                afficherResultat();
+            }
+        }
+
+        function afficherResultat() {
+            document.getElementById('quizSection').style.display = 'none';
+            document.getElementById('finalSection').style.display = 'block';
+            document.getElementById('scoreText').innerText = `Score : ${score} / ${QUESTIONS.length}`;
+            document.getElementById('giftContent').innerHTML = CADEAU_FINAL_HTML;
+
+            if (score < QUESTIONS.length) {
+                document.getElementById('retryBtn').style.display = 'inline-block';
+            }
+        }
+
+        function recommencerQuiz() {
+            indexActuel = 0;
+            score = 0;
+            document.getElementById('finalSection').style.display = 'none';
+            document.getElementById('retryBtn').style.display = 'none';
+            document.getElementById('quizSection').style.display = 'block';
+            afficherQuestion();
+        }
+
+        afficherQuestion();
+    </script>
+</body>
+</html>
