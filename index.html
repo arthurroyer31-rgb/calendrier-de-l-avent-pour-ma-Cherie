@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notre Calendrier de l'Avent 🎄</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             background-color: #0d131f;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -519,10 +519,10 @@
         const MODE_TEST = true; 
 
         const MOTS_CLES = {
-    q1: ["pull en laine", "pull en laine bleue","pull bleu"],                  // Valide "food runner", "au food runners", "les food runners"...
-    q2: ["1 octobre", "premier octobre", "01/10"],    // Tu peux même mettre plusieurs variantes possibles !
-    q3:["oui, depuis le 18 novembre"]
-};
+            q1: ["pull en laine", "pull en laine bleue", "pull en laine bleu","pull bleu"],
+            q2: ["1 octobre", "premier octobre", "01/10", "01/10/2026", "1 octobre 2026","premier octobre 2026"],
+            q3: ["oui, depuis 18 novembre"]
+        };
 
         // Contenu des 24 jours (tu peux ajouter en option : images: ["photo1.jpg"], lienTexte: "...", lienUrl: "...")
         const cadeaux = {
@@ -548,7 +548,7 @@
             20: { titre: "Une belle matinée d'hiver", texte: "Je vous reserve votre repas préféré. Attendez moi là le temps que je vous le prépare" },
             21: { titre: "Compte goute", texte: "Et oui, je vous avez prévenu, ils arrivent au fur et à mesure. Mais au moins vous pouvez penser à moi lorsque vous en prenez avec votre famille par exemple" },
             22: { titre: "Préparation", texte: "Bien que vous soyez sublime, il faut se préparer pour le réveillons. Quoi de mieux que de la skincare pour embillir votre peau? Elle se trouve peut être dans une poche de vos affaires" },
-            23: { titre: "Pour vous et rien que pour vous", texte: "Après trois versions papiers, voici une version numérique. Profitez d'une attaque de bienveillance avant d'affronter les durs et longs repas de noël" },
+            23: { titre: "Pour vous et rien que pour vous", texte: "Après trois versions papiers, voici une version numérique. Profitez d'une attaque de bienveillance avant d'affronter les durs et longs repas de noël", lienUrl: "compli" },
             24: { titre: "🎄 Joyeux Réveillon 🎄", texte: "Le grand final vous attend. Suivez le lien et laissez-vous portée:", lienUrl: "suuuu" }
         };
 
@@ -556,8 +556,13 @@
         // LOGIQUE DU SITE
         // ==========================================
 
-        function normaliser(texte) {
-            return texte.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+        function nettoyerReponse(texte) {
+            return texte
+                .toLowerCase()
+                .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                .replace(/\b(le|la|les|l|un|une|des|mon|ma|mes|au|aux|du|de)\b/g, "")
+                .replace(/\s+/g, " ")
+                .trim();
         }
 
         window.onload = function() {
@@ -572,16 +577,16 @@
     document.getElementById('introScreen').classList.add('hidden');
 }
 
-        // 2. Remplace ta fonction verifierConnexion() par celle-ci :
-function verifierConnexion() {
-    const rep1 = normaliser(document.getElementById('q1').value);
-    const rep2 = normaliser(document.getElementById('q2').value);
+        function verifierConnexion() {
+    const rep1 = nettoyerReponse(document.getElementById('q1').value);
+    const rep2 = nettoyerReponse(document.getElementById('q2').value);
+    const rep3 = nettoyerReponse(document.getElementById('q3').value);
 
-    // Vérifie si la saisie contient au moins un des mots-clés de la liste
-    const ok1 = MOTS_CLES.q1.some(mot => rep1.includes(normaliser(mot)));
-    const ok2 = MOTS_CLES.q2.some(mot => rep2.includes(normaliser(mot)));
+    const ok1 = MOTS_CLES.q1.some(mot => nettoyerReponse(mot) === rep1);
+    const ok2 = MOTS_CLES.q2.some(mot => nettoyerReponse(mot) === rep2);
+    const ok3 = MOTS_CLES.q3.some(mot => nettoyerReponse(mot) === rep3);
 
-    if (ok1 && ok2) {
+    if (ok1 && ok2 && ok3) {
         localStorage.setItem('calendrier_connecte', 'true');
         document.getElementById('loginScreen').classList.add('hidden');
     } else {
