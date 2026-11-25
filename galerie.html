@@ -3,100 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accès Privé — 11 Décembre 🔥</title>
+    <title>Accès Privé — 11 Décembre 🎄</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            background-color: #0d131f;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background:
+                radial-gradient(circle at 50% 20%, rgba(212, 163, 89, 0.16) 0%, transparent 55%),
+                radial-gradient(circle at 80% 85%, rgba(120, 24, 34, 0.28) 0%, transparent 50%),
+                linear-gradient(170deg, #160c10 0%, #0d1514 55%, #140b0e 100%);
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.12rem;
             color: #fff;
             min-height: 100vh;
-            padding: 24px 16px 40px;
+            padding: 28px 16px 48px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        .container {
+        .snow-container {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .snowflake {
+            position: absolute;
+            top: -20px;
+            color: rgba(255, 236, 195, 0.55);
+            text-shadow: 0 0 6px rgba(212, 163, 89, 0.5);
+            user-select: none;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% {
+                transform: translateY(-20px) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 0.85; }
+            90% { opacity: 0.7; }
+            100% {
+                transform: translateY(105vh) translateX(25px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .wrapper {
             width: 100%;
-            max-width: 480px;
+            max-width: 460px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
         }
 
-        /* --- EN-TÊTE --- */
-        .header {
-            text-align: center;
-            background: linear-gradient(160deg, #331c0d, #1f1006);
-            border: 2px solid #d4a359;
-            border-radius: 20px;
-            padding: 24px 20px;
-            margin-bottom: 24px;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
-        }
         .badge {
             display: inline-block;
-            background: rgba(212, 163, 89, 0.2);
+            background: rgba(138, 28, 38, 0.35);
             color: #ffdf9e;
             border: 1px solid #d4a359;
-            padding: 4px 12px;
+            padding: 5px 16px;
             border-radius: 20px;
+            font-family: 'Cinzel', serif;
             font-size: 0.78rem;
             letter-spacing: 1px;
             text-transform: uppercase;
-            margin-bottom: 10px;
-        }
-        .header h1 {
-            color: #fff5e4;
-            font-size: 1.55rem;
-            margin-bottom: 10px;
-        }
-        .header p {
-            color: #ead7c3;
-            font-size: 0.95rem;
-            line-height: 1.55;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
         }
 
-        /* --- GRILLE POLAROID --- */
-        .gallery {
-            display: flex;
-            flex-direction: column;
-            gap: 22px;
-            margin-bottom: 28px;
+        h1 {
+            font-family: 'Cinzel', serif;
+            color: #fff5e4;
+            font-size: 1.55rem;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 10px rgba(212, 163, 89, 0.3);
+        }
+
+        .subtitle {
+            color: #ead7c3;
+            font-size: 1.08rem;
+            font-style: italic;
+            margin-bottom: 24px;
+            line-height: 1.5;
         }
 
         .photo-card {
-            background: #2b180a;
+            background:
+                radial-gradient(circle at top right, rgba(212, 163, 89, 0.14), transparent 60%),
+                linear-gradient(160deg, #3b1c12, #220e08);
             border: 2px solid #d4a359;
-            border-radius: 18px;
-            padding: 12px 12px 18px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.65);
-            transition: transform 0.3s ease;
-        }
-        .photo-card:hover {
-            transform: translateY(-2px);
+            border-radius: 22px;
+            padding: 16px 16px 20px;
+            margin-bottom: 22px;
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.85),
+                0 0 25px rgba(212, 163, 89, 0.18),
+                inset 0 0 0 4px rgba(212, 163, 89, 0.1);
+            position: relative;
         }
 
-        .image-wrapper {
+        /* --- CONTENEUR PHOTO AVEC FLOUTAGE --- */
+        .blur-wrapper {
             position: relative;
-            width: 100%;
-            border-radius: 12px;
+            border-radius: 14px;
             overflow: hidden;
+            border: 1px solid rgba(212, 163, 89, 0.6);
+            margin-bottom: 12px;
             cursor: pointer;
-            aspect-ratio: 3 / 4;
             background: #1a0e05;
         }
 
-        .image-wrapper img {
+        .blur-wrapper img {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
             display: block;
-            filter: blur(22px) brightness(0.65);
+            object-fit: cover;
+            filter: blur(24px) brightness(0.65);
             transform: scale(1.08);
-            transition: filter 0.8s ease, transform 0.8s ease;
+            transition: filter 0.65s ease, transform 0.65s ease;
+            user-select: none;
+            -webkit-user-select: none;
         }
 
-        /* État révélé au clic */
-        .photo-card.revealed .image-wrapper img {
+        .blur-wrapper.revealed img {
             filter: blur(0) brightness(1);
             transform: scale(1);
         }
@@ -108,141 +143,203 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            text-align: center;
-            padding: 20px;
-            background: rgba(13, 19, 31, 0.25);
-            transition: opacity 0.5s ease;
+            padding: 16px;
+            background: rgba(20, 10, 6, 0.35);
+            transition: opacity 0.45s ease;
+        }
+
+        .blur-wrapper.revealed .reveal-overlay {
+            opacity: 0;
             pointer-events: none;
         }
-        .photo-card.revealed .reveal-overlay {
-            opacity: 0;
-        }
 
-        .reveal-btn {
-            background: linear-gradient(135deg, #d4a359, #a67228);
+        .reveal-pill {
+            background: linear-gradient(135deg, #e0b263, #a67228);
             color: #1a0e05;
-            font-weight: bold;
-            font-size: 0.92rem;
-            padding: 10px 18px;
+            border: 1px solid #ffe4a3;
+            padding: 10px 20px;
             border-radius: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 0.88rem;
+            letter-spacing: 0.4px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
         }
 
-        .caption {
-            margin-top: 14px;
-            text-align: center;
-            font-size: 0.98rem;
-            color: #ffdf9e;
+        .reveal-hint {
+            margin-top: 8px;
+            font-size: 0.95rem;
             font-style: italic;
-            padding: 0 8px;
+            color: #ffdf9e;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
         }
 
-        /* --- BOUTON RETOUR --- */
+        .photo-caption {
+            color: #ffdf9e;
+            font-size: 1.15rem;
+            font-style: italic;
+            line-height: 1.5;
+        }
+
         .btn-back {
-            display: block;
-            width: 100%;
-            text-align: center;
-            padding: 14px;
+            display: inline-block;
+            margin-top: 8px;
+            padding: 12px 26px;
+            border: 1px solid #ffe4a3;
             border-radius: 14px;
-            background: linear-gradient(135deg, #d4a359, #a67228);
+            background: linear-gradient(135deg, #e0b263, #a67228);
             color: #1a0e05;
-            font-weight: bold;
-            font-size: 1rem;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 0.95rem;
             text-decoration: none;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
             transition: transform 0.2s;
         }
         .btn-back:hover { transform: scale(1.02); }
-
-        /* --- LIGHTBOX PLEIN ÉCRAN --- */
-        .lightbox {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(5, 8, 15, 0.95);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 16px;
-        }
-        .lightbox.active { display: flex; }
-        .lightbox img {
-            max-width: 100%;
-            max-height: 90vh;
-            border-radius: 12px;
-            border: 2px solid #d4a359;
-        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="header">
-            <span class="badge">🔥 11 Décembre — Accès VIP</span>
-            <h1>Rien que pour vos yeux...</h1>
-            <p>Touchez chaque cliché pour le révéler (et re-cliquez dessus pour l'afficher en grand) 😏</p>
+    <div class="snow-container" id="snowContainer"></div>
+
+    <div class="wrapper">
+        <span class="badge">🎄 11 Décembre — Accès Privé</span>
+        <h1>Rien que pour vos yeux Ma Dame</h1>
+        <p class="subtitle">Assurez-vous d'être seule avant de toucher les photos pour les dévoiler ✨</p>
+
+        <!-- Photo 1 -->
+        <div class="photo-card">
+            <div class="blur-wrapper" onclick="this.classList.toggle('revealed')">
+                <img src="nous1 (9).jpg" alt="Photo 1">
+                <div class="reveal-overlay">
+                    <span class="reveal-pill">Toucher pour révéler </span>
+                    <span class="reveal-hint">(Appuyez à nouveau pour reflouter)</span>
+                </div>
+            </div>
+            <p class="photo-caption">« ça c'est moi tout petit »</p>
         </div>
 
-        <div class="gallery" id="galleryContainer"></div>
-
+        <!-- Photo 2 -->
+        <div class="photo-card">
+            <div class="blur-wrapper" onclick="this.classList.toggle('revealed')">
+                <img src="nous1 (13).jpg" alt="Photo 2">
+                <div class="reveal-overlay">
+                    <span class="reveal-pill">Toucher pour révéler</span>
+                    <span class="reveal-hint">(Appuyez à nouveau pour reflouter)</span>
+                </div>
+            </div>
+            <p class="photo-caption">« ça c'est moi un peu moins petit »</p>
+        </div>
+        <!-- Photo 3 -->
+        <div class="photo-card">
+            <div class="blur-wrapper" onclick="this.classList.toggle('revealed')">
+                <img src="nous1 (4).jpg" alt="Photo 2">
+                <div class="reveal-overlay">
+                    <span class="reveal-pill">Toucher pour révéler</span>
+                    <span class="reveal-hint">(Appuyez à nouveau pour reflouter)</span>
+                </div>
+            </div>
+            <p class="photo-caption">« sur celle là, je suis plus grand, légèrement »</p>
+        </div>
+        <!-- Photo 4 -->
+        <div class="photo-card">
+            <div class="blur-wrapper" onclick="this.classList.toggle('revealed')">
+                <img src="nous1 (37).jpg" alt="Photo 2">
+                <div class="reveal-overlay">
+                    <span class="reveal-pill">Toucher pour révéler 🔥</span>
+                    <span class="reveal-hint">(Appuyez à nouveau pour reflouter)</span>
+                </div>
+            </div>
+            <p class="photo-caption">« une autre version de moi petit »</p>
+        </div>
+<!-- Photo 5 -->
+        <div class="photo-card">
+            <div class="blur-wrapper" onclick="this.classList.toggle('revealed')">
+                <img src="nous1 (1).jpg" alt="Photo 2">
+                <div class="reveal-overlay">
+                    <span class="reveal-pill">Toucher pour révéler 🔥</span>
+                    <span class="reveal-hint">(Appuyez à nouveau pour reflouter)</span>
+                </div>
+            </div>
+            <p class="photo-caption">« comment je souris quand je te vois »</p>
+        </div>
+<!-- Photo 6 -->
+        <div class="photo-card">
+            <div class="blur-wrapper" onclick="this.classList.toggle('revealed')">
+                <img src="nous1 (5).jpg" alt="Photo 2">
+                <div class="reveal-overlay">
+                    <span class="reveal-pill">Toucher pour révéler 🔥</span>
+                    <span class="reveal-hint">(Appuyez à nouveau pour reflouter)</span>
+                </div>
+            </div>
+            <p class="photo-caption">« oula, euh, je ne sais pas ce qu'elle fait là celle là »</p>
+        </div>
+<!-- Photo 7 -->
+        <div class="photo-card">
+            <div class="blur-wrapper" onclick="this.classList.toggle('revealed')">
+                <img src="nous1 (4).jpg" alt="Photo 2">
+                <div class="reveal-overlay">
+                    <span class="reveal-pill">Toucher pour révéler 🔥</span>
+                    <span class="reveal-hint">(Appuyez à nouveau pour reflouter)</span>
+                </div>
+            </div>
+            <p class="photo-caption">« celle là date de cet été je crois »</p>
+        </div>
+<!-- Photo 8 -->
+        <div class="photo-card">
+            <div class="blur-wrapper" onclick="this.classList.toggle('revealed')">
+                <img src="nous1 (4).jpg" alt="Photo 2">
+                <div class="reveal-overlay">
+                    <span class="reveal-pill">Toucher pour révéler 🔥</span>
+                    <span class="reveal-hint">(Appuyez à nouveau pour reflouter)</span>
+                </div>
+            </div>
+            <p class="photo-caption">« Bon, là j'avoue que je suis coupable... »</p>
+        </div>
+        <!-- Photo 9 -->
+        <div class="photo-card">
+            <div class="blur-wrapper" onclick="this.classList.toggle('revealed')">
+                <img src="nous1 (4).jpg" alt="Photo 2">
+                <div class="reveal-overlay">
+                    <span class="reveal-pill">Toucher pour révéler 🔥</span>
+                    <span class="reveal-hint">(Appuyez à nouveau pour reflouter)</span>
+                </div>
+            </div>
+            <p class="photo-caption">« Peut-être que sur celle-ci aussi... »</p>
+        </div>
+        <!-- Photo 10 -->
+        <div class="photo-card">
+            <div class="blur-wrapper" onclick="this.classList.toggle('revealed')">
+                <img src="nous1 (4).jpg" alt="Photo 2">
+                <div class="reveal-overlay">
+                    <span class="reveal-pill">Toucher pour révéler 🔥</span>
+                    <span class="reveal-hint">(Appuyez à nouveau pour reflouter)</span>
+                </div>
+            </div>
+            <p class="photo-caption">« Je vous laisse là dessus Ma Dame »</p>
+        </div>
         <a href="index.html" class="btn-back">← Retourner à l'immeuble</a>
     </div>
 
-    <!-- Plein écran au 2ème clic -->
-    <div class="lightbox" id="lightbox" onclick="this.classList.remove('active')">
-        <img id="lightboxImg" src="" alt="Agrandissement">
-    </div>
-
     <script>
-        // ==========================================
-        // TES PHOTOS À CONFIGURER ICI
-        // ==========================================
-        const MES_PHOTOS = [
-            {
-                fichier: "photo cv.png", // Mets le nom exact de ton fichier image
-                legende: ""
-            },
-            {
-                fichier: "photo2.jpg",
-                legende: ""
-            },
-            {
-                fichier: "photo3.jpg",
-                legende: ""
-            }
-        ];
+        function creerNeige() {
+            const snowContainer = document.getElementById('snowContainer');
+            const symboles = ['❄', '✦', '•', '❅'];
+            const nombreFlocons = 28;
 
-        // ==========================================
-        // GÉNÉRATION DE LA GALERIE
-        // ==========================================
-        const container = document.getElementById('galleryContainer');
-
-        MES_PHOTOS.forEach((item, index) => {
-            const card = document.createElement('div');
-            card.className = 'photo-card';
-            card.innerHTML = `
-                <div class="image-wrapper" onclick="gererClicPhoto(this, '${item.fichier}')">
-                    <img src="${item.fichier}" alt="Photo ${index + 1}">
-                    <div class="reveal-overlay">
-                        <span class="reveal-btn">Toucher pour révéler 👀</span>
-                    </div>
-                </div>
-                <p class="caption">${item.legende}</p>
-            `;
-            container.appendChild(card);
-        });
-
-        function gererClicPhoto(wrapper, src) {
-            const card = wrapper.parentElement;
-            if (!card.classList.contains('revealed')) {
-                // 1er clic : enlève le flou
-                card.classList.add('revealed');
-            } else {
-                // 2ème clic : ouvre en plein écran
-                document.getElementById('lightboxImg').src = src;
-                document.getElementById('lightbox').classList.add('active');
+            for (let i = 0; i < nombreFlocons; i++) {
+                const flocon = document.createElement('div');
+                flocon.className = 'snowflake';
+                flocon.innerText = symboles[Math.floor(Math.random() * symboles.length)];
+                flocon.style.left = Math.random() * 100 + 'vw';
+                flocon.style.fontSize = (Math.random() * 10 + 8) + 'px';
+                flocon.style.animationDuration = (Math.random() * 8 + 7) + 's';
+                flocon.style.animationDelay = (Math.random() * 8) + 's';
+                snowContainer.appendChild(flocon);
             }
         }
+        creerNeige();
     </script>
 </body>
 </html>

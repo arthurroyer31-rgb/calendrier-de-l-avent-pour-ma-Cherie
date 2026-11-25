@@ -4,38 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notre Calendrier de l'Avent 🎄</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet">
     <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            background-color: #0d131f;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background:
+                radial-gradient(circle at 50% 25%, rgba(212, 163, 89, 0.16) 0%, transparent 55%),
+                radial-gradient(circle at 80% 85%, rgba(120, 24, 34, 0.28) 0%, transparent 50%),
+                linear-gradient(170deg, #160c10 0%, #0d1514 55%, #140b0e 100%);
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.12rem;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             color: #fff;
+            overflow-x: hidden;
+            position: relative;
         }
+
+        h2, h3, .modal-title, .modal-badge, .case-numero {
+            font-family: 'Cinzel', serif;
+        }
+
+        /* --- FLOCONS DE NEIGE EN ARRIÈRE-PLAN --- */
+        .snow-container {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 20;
+            overflow: hidden;
+        }
+        .snowflake {
+            position: absolute;
+            top: -20px;
+            color: rgba(255, 236, 195, 0.55);
+            text-shadow: 0 0 6px rgba(212, 163, 89, 0.5);
+            user-select: none;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% {
+                transform: translateY(-20px) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 0.85; }
+            90% { opacity: 0.7; }
+            100% {
+                transform: translateY(105vh) translateX(25px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
         /* Secousse quand on clique trop tôt sur une fenêtre */
-@keyframes shakeWindow {
-    0%, 100% { transform: translateX(0); }
-    20%      { transform: translateX(-4px) rotate(-1deg); }
-    40%      { transform: translateX(4px) rotate(1deg); }
-    60%      { transform: translateX(-3px); }
-    80%      { transform: translateX(3px); }
-}
-.case.locked-shake {
-    animation: shakeWindow 0.4s ease;
-}
-.case.locked-shake .volet {
-    border-color: #ff6b6b;
-    box-shadow: 0 0 12px rgba(255, 107, 107, 0.7);
-}
+        @keyframes shakeWindow {
+            0%, 100% { transform: translateX(0); }
+            20%      { transform: translateX(-4px) rotate(-1deg); }
+            40%      { transform: translateX(4px) rotate(1deg); }
+            60%      { transform: translateX(-3px); }
+            80%      { transform: translateX(3px); }
+        }
+        .case.locked-shake {
+            animation: shakeWindow 0.4s ease;
+        }
+        .case.locked-shake .volet {
+            border-color: #ff6b6b;
+            box-shadow: 0 0 12px rgba(255, 107, 107, 0.7);
+        }
 
         /* --- ÉCRAN DE CONNEXION --- */
         .login-screen {
             position: fixed;
             inset: 0;
-            background: rgba(13, 19, 31, 0.92);
+            background: rgba(20, 11, 14, 0.92);
             backdrop-filter: blur(10px);
             z-index: 1000;
             display: flex;
@@ -49,22 +92,41 @@
             pointer-events: none;
         }
         .login-box {
-            background: #2b180a;
+            background:
+                radial-gradient(circle at top right, rgba(212, 163, 89, 0.14), transparent 60%),
+                linear-gradient(160deg, #3b1c12, #220e08);
             border: 2px solid #d4a359;
-            border-radius: 20px;
+            border-radius: 22px;
             padding: 30px 25px;
             width: 100%;
-            max-width: 380px;
+            max-width: 390px;
             text-align: center;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.85),
+                0 0 30px rgba(212, 163, 89, 0.2),
+                inset 0 0 0 5px rgba(212, 163, 89, 0.12);
+            position: relative;
         }
+        .login-box::before,
+        .login-box::after {
+            content: "❄";
+            position: absolute;
+            font-size: 0.95rem;
+            color: rgba(255, 223, 158, 0.45);
+        }
+        .login-box::before { top: 12px; left: 15px; }
+        .login-box::after  { bottom: 12px; right: 15px; }
+
         .login-box h2 {
             color: #ffdf9e;
             margin-bottom: 10px;
-            font-size: 1.5rem;
+            font-size: 1.45rem;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 10px rgba(212, 163, 89, 0.3);
         }
         .login-box p.subtitle {
-            font-size: 0.9rem;
+            font-size: 1.05rem;
+            font-style: italic;
             color: #e0c8a8;
             margin-bottom: 20px;
         }
@@ -74,7 +136,8 @@
         }
         .question-group label {
             display: block;
-            font-size: 0.9rem;
+            font-size: 1.02rem;
+            font-weight: 600;
             color: #ffdf9e;
             margin-bottom: 5px;
         }
@@ -85,7 +148,8 @@
             border: 1px solid #8b5a2b;
             background: #1a0e05;
             color: #fff;
-            font-size: 1rem;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.08rem;
             outline: none;
         }
         .question-group input:focus {
@@ -93,21 +157,24 @@
         }
         .btn-login {
             width: 100%;
-            padding: 12px;
+            padding: 13px;
             margin-top: 10px;
-            border: none;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #d4a359, #a67228);
+            border: 1px solid #ffe4a3;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #e0b263, #a67228);
             color: #1a0e05;
-            font-weight: bold;
-            font-size: 1rem;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
             cursor: pointer;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.6), 0 0 15px rgba(212, 163, 89, 0.25);
             transition: transform 0.2s;
         }
         .btn-login:hover { transform: scale(1.02); }
         .error-msg {
             color: #ff7b7b;
-            font-size: 0.85rem;
+            font-size: 0.95rem;
             margin-top: 10px;
             min-height: 20px;
         }
@@ -118,10 +185,12 @@
             width: 100%;
             max-width: 480px;
             margin: 10px auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-            border-radius: 15px;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.85), 0 0 30px rgba(212, 163, 89, 0.22);
+            border: 2px solid rgba(212, 163, 89, 0.55);
+            border-radius: 18px;
             overflow: hidden;
             aspect-ratio: 9 / 16;
+            z-index: 1;
         }
         .gingerbread-house {
             width: 100%;
@@ -141,157 +210,101 @@
             background: transparent;
         }
         .volet {
-    position: absolute;
-    top: 0;
-    width: 50%;
-    height: 100%;
-    background:
-        /* Lames horizontales subtiles façon persiennes */
-        repeating-linear-gradient(
-            to bottom,
-            rgba(0, 0, 0, 0.22) 0px,
-            rgba(0, 0, 0, 0.22) 2px,
-            transparent 2px,
-            transparent 6px
-        ),
-        /* Teinte pain d'épice glacé / bois chaleureux */
-        linear-gradient(160deg, #6e3b1e 0%, #4a2511 60%, #361909 100%);
-    border: 1.5px solid #e6c280;
-    box-shadow:
-        inset 0 0 0 2px rgba(255, 240, 210, 0.25), /* Filet de glaçage intérieur */
-        inset 0 2px 6px rgba(0, 0, 0, 0.65),
-        0 2px 5px rgba(0, 0, 0, 0.5);
-    transition: transform 0.75s cubic-bezier(0.34, 1.35, 0.64, 1);
-    backface-visibility: visible;
-}
-
-/* Moulure intérieure en relief sur chaque battant */
-.volet::before {
-    content: "";
-    position: absolute;
-    inset: 4px;
-    border: 1px solid rgba(230, 194, 128, 0.45);
-    border-radius: 2px;
-    pointer-events: none;
-}
-
-/* Petits gonds dorés sur les bords extérieurs */
-.volet::after {
-    content: "";
-    position: absolute;
-    top: 18%;
-    bottom: 18%;
-    width: 2.5px;
-    background: linear-gradient(to bottom, #ffd700 0%, #ffd700 22%, transparent 22%, transparent 78%, #ffd700 78%, #ffd700 100%);
-    pointer-events: none;
-}
-
-.volet-gauche {
-    left: 0;
-    transform-origin: left center;
-    border-radius: 4px 0 0 4px;
-    border-right: 1px solid #241005; /* Jointure centrale réaliste */
-}
-.volet-gauche::after { left: -1px; }
-
-.volet-droit {
-    right: 0;
-    transform-origin: right center;
-    border-radius: 0 4px 4px 0;
-    border-left: 1px solid #8c5230; /* Reflet de lumière sur la tranche */
-}
-.volet-droit::after { right: -1px; }
-
-/* Forme cintrée pour la grande porte du 24 */
-.case-24 .volet-gauche,
-.case-24 .volet-gauche::before { border-radius: 28px 0 0 4px; }
-.case-24 .volet-droit,
-.case-24 .volet-droit::before  { border-radius: 0 28px 4px 0; }
-
-/* Macaron en laiton doré au centre des volets fermés */
-.case-numero {
-    position: relative;
-    z-index: 3;
-    min-width: 22px;
-    height: 22px;
-    padding: 0 4px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #ffe699, #c48b2c);
-    border: 1.5px solid #fff5d6;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.8), inset 0 1px 2px rgba(255, 255, 255, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 800;
-    font-size: 0.75rem;
-    color: #2b1405;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
-    transition: transform 0.35s ease, opacity 0.35s ease;
-    pointer-events: none;
-}
-
-/* Effet d'entrebâillement au survol */
-.case:not(.opened):hover .volet-gauche { transform: rotateY(-22deg); }
-.case:not(.opened):hover .volet-droit  { transform: rotateY(22deg); }
-.case:not(.opened):hover .case-numero  { transform: scale(1.12); }
-
-/* ÉTAT OUVERT : les volets s'ouvrent en grand et le macaron s'efface proprement */
-.case.opened .volet-gauche { transform: rotateY(-125deg); }
-.case.opened .volet-droit  { transform: rotateY(125deg); }
-.case.opened .case-numero  {
-    opacity: 0;
-    transform: scale(0.5);
-}
-
-        .volet {
             position: absolute;
             top: 0;
             width: 50%;
             height: 100%;
-            background: linear-gradient(135deg, #5c3317, #3d200c);
-            border: 1px solid #d4a359;
-            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+            background:
+                repeating-linear-gradient(
+                    to bottom,
+                    rgba(0, 0, 0, 0.22) 0px,
+                    rgba(0, 0, 0, 0.22) 2px,
+                    transparent 2px,
+                    transparent 6px
+                ),
+                linear-gradient(160deg, #6e3b1e 0%, #4a2511 60%, #361909 100%);
+            border: 1.5px solid #e6c280;
+            box-shadow:
+                inset 0 0 0 2px rgba(255, 240, 210, 0.25),
+                inset 0 2px 6px rgba(0, 0, 0, 0.65),
+                0 2px 5px rgba(0, 0, 0, 0.5);
+            transition: transform 0.75s cubic-bezier(0.34, 1.35, 0.64, 1);
             backface-visibility: visible;
-            box-shadow: inset 0 0 6px rgba(0,0,0,0.6);
+        }
+
+        .volet::before {
+            content: "";
+            position: absolute;
+            inset: 4px;
+            border: 1px solid rgba(230, 194, 128, 0.45);
+            border-radius: 2px;
+            pointer-events: none;
+        }
+
+        .volet::after {
+            content: "";
+            position: absolute;
+            top: 18%;
+            bottom: 18%;
+            width: 2.5px;
+            background: linear-gradient(to bottom, #ffd700 0%, #ffd700 22%, transparent 22%, transparent 78%, #ffd700 78%, #ffd700 100%);
+            pointer-events: none;
         }
 
         .volet-gauche {
             left: 0;
             transform-origin: left center;
-            border-radius: 3px 0 0 3px;
+            border-radius: 4px 0 0 4px;
+            border-right: 1px solid #241005;
         }
+        .volet-gauche::after { left: -1px; }
 
         .volet-droit {
             right: 0;
             transform-origin: right center;
-            border-radius: 0 3px 3px 0;
+            border-radius: 0 4px 4px 0;
+            border-left: 1px solid #8c5230;
         }
+        .volet-droit::after { right: -1px; }
 
-        /* Forme arrondie en haut pour la porte du 24 */
-        .case-24 .volet-gauche { border-radius: 25px 0 0 3px; }
-        .case-24 .volet-droit  { border-radius: 0 25px 3px 0; }
+        .case-24 .volet-gauche,
+        .case-24 .volet-gauche::before { border-radius: 28px 0 0 4px; }
+        .case-24 .volet-droit,
+        .case-24 .volet-droit::before  { border-radius: 0 28px 4px 0; }
 
         .case-numero {
             position: relative;
-            z-index: 2;
-            font-weight: bold;
-            font-size: 1rem;
-            color: #ffdf9e;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.9);
-            transition: opacity 0.3s ease;
+            z-index: 3;
+            min-width: 22px;
+            height: 22px;
+            padding: 0 4px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #ffe699, #c48b2c);
+            border: 1.5px solid #fff5d6;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.8), inset 0 1px 2px rgba(255, 255, 255, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 800;
+            font-size: 0.72rem;
+            color: #2b1405;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+            transition: transform 0.35s ease, opacity 0.35s ease;
             pointer-events: none;
         }
 
-        /* Survol léger avant ouverture */
-        .case:not(.opened):hover .volet-gauche { transform: rotateY(-18deg); }
-        .case:not(.opened):hover .volet-droit  { transform: rotateY(18deg); }
+        .case:not(.opened):hover .volet-gauche { transform: rotateY(-22deg); }
+        .case:not(.opened):hover .volet-droit  { transform: rotateY(22deg); }
+        .case:not(.opened):hover .case-numero  { transform: scale(1.12); }
 
-        /* État ouvert (reste ouvert les jours suivants, cliquable pour relire) */
-        .case.opened .volet-gauche { transform: rotateY(-115deg); }
-        .case.opened .volet-droit  { transform: rotateY(115deg); }
-        .case.opened .case-numero  { opacity: 0.35; }
+        .case.opened .volet-gauche { transform: rotateY(-125deg); }
+        .case.opened .volet-droit  { transform: rotateY(125deg); }
+        .case.opened .case-numero  {
+            opacity: 0;
+            transform: scale(0.5);
+        }
 
-        /* --- TES COORDONNÉES DES 24 OUVERTURES --- */
+        /* --- COORDONNÉES DES 24 OUVERTURES --- */
         .case-1  { top: 8%;    left: 25%; width: 10%; height: 7%; }
         .case-2  { top: 8%;    left: 45%; width: 12%; height: 7%; }
         .case-3  { top: 8%;    left: 65%; width: 12%; height: 7%; }
@@ -322,7 +335,7 @@
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(10, 14, 23, 0.85);
+            background: rgba(16, 9, 12, 0.86);
             backdrop-filter: blur(8px);
             z-index: 999;
             justify-content: center;
@@ -331,36 +344,64 @@
         }
         .modal.active { display: flex; }
         .modal-content {
-            background: linear-gradient(160deg, #331c0d, #1f1006);
+            background:
+                radial-gradient(circle at top right, rgba(212, 163, 89, 0.14), transparent 60%),
+                linear-gradient(160deg, #3b1c12, #220e08);
             border: 2px solid #d4a359;
             border-radius: 22px;
-            padding: 28px 22px;
+            padding: 32px 24px;
             width: 100%;
-            max-width: 390px;
+            max-width: 400px;
             max-height: 85vh;
             overflow-y: auto;
             text-align: center;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 163, 89, 0.25);
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.85),
+                0 0 30px rgba(212, 163, 89, 0.25),
+                inset 0 0 0 5px rgba(212, 163, 89, 0.12);
             animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
         }
+        .modal-content::before,
+        .modal-content::after {
+            content: "❄";
+            position: absolute;
+            font-size: 0.95rem;
+            color: rgba(255, 223, 158, 0.45);
+        }
+        .modal-content::before { top: 12px; left: 15px; }
+        .modal-content::after  { bottom: 12px; right: 15px; }
+
         @keyframes popIn {
             from { transform: scale(0.8) translateY(20px); opacity: 0; }
             to   { transform: scale(1) translateY(0); opacity: 1; }
         }
         .modal-badge {
             display: inline-block;
-            background: rgba(212, 163, 89, 0.2);
+            background: rgba(138, 28, 38, 0.35);
             color: #ffdf9e;
             border: 1px solid #d4a359;
-            padding: 4px 12px;
+            padding: 4px 14px;
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             letter-spacing: 1px;
             text-transform: uppercase;
             margin-bottom: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
         }
-        .modal-title { color: #fff5e4; font-size: 1.5rem; margin-bottom: 14px; }
-        .modal-gift-info { font-size: 1.05rem; line-height: 1.6; margin-bottom: 18px; color: #ead7c3; }
+        .modal-title {
+            color: #fff5e4;
+            font-size: 1.4rem;
+            margin-bottom: 14px;
+            letter-spacing: 0.4px;
+            text-shadow: 0 2px 10px rgba(212, 163, 89, 0.3);
+        }
+        .modal-gift-info {
+            font-size: 1.15rem;
+            line-height: 1.65;
+            margin-bottom: 18px;
+            color: #ead7c3;
+        }
         .modal-gallery {
             display: flex;
             flex-direction: column;
@@ -376,13 +417,17 @@
         .btn-action {
             display: inline-block;
             width: 100%;
-            padding: 12px;
+            padding: 13px;
             margin-bottom: 12px;
-            background: linear-gradient(135deg, #d4a359, #a67228);
+            border: 1px solid #ffe4a3;
+            background: linear-gradient(135deg, #e0b263, #a67228);
             color: #1a0e05;
-            font-weight: bold;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 0.92rem;
             text-decoration: none;
-            border-radius: 12px;
+            border-radius: 14px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
         }
         .btn-close {
             background: transparent;
@@ -390,66 +435,90 @@
             color: #d6c3b0;
             padding: 8px 22px;
             border-radius: 20px;
-            font-size: 0.9rem;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1rem;
             cursor: pointer;
         }
+
         /* --- ÉCRAN DE PRÉSENTATION INTERMÉDIAIRE --- */
-.intro-screen {
-    position: fixed;
-    inset: 0;
-    background: rgba(13, 19, 31, 0.94);
-    backdrop-filter: blur(10px);
-    z-index: 950; /* Juste en dessous de l'écran de connexion (1000) */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    transition: opacity 0.6s ease;
-}
-.intro-screen.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
-.intro-box {
-    background: linear-gradient(160deg, #331c0d, #1f1006);
-    border: 2px solid #d4a359;
-    border-radius: 22px;
-    padding: 32px 24px;
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
-}
-.intro-box h2 {
-    color: #ffdf9e;
-    font-size: 1.6rem;
-    margin-bottom: 14px;
-}
-.intro-text {
-    color: #ead7c3;
-    font-size: 0.98rem;
-    line-height: 1.6;
-    margin-bottom: 20px;
-}
-.intro-rules {
-    background: rgba(0, 0, 0, 0.35);
-    border-left: 3px solid #d4a359;
-    border-radius: 10px;
-    padding: 14px 16px;
-    text-align: left;
-    margin-bottom: 22px;
-    font-size: 0.9rem;
-    color: #f5ebe0;
-    line-height: 1.6;
-}
-.intro-rules li {
-    list-style: none;
-    margin-bottom: 6px;
-}
-.intro-rules li:last-child { margin-bottom: 0; }
+        .intro-screen {
+            position: fixed;
+            inset: 0;
+            background: rgba(20, 11, 14, 0.94);
+            backdrop-filter: blur(10px);
+            z-index: 950;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            transition: opacity 0.6s ease;
+        }
+        .intro-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .intro-box {
+            background:
+                radial-gradient(circle at top right, rgba(212, 163, 89, 0.14), transparent 60%),
+                linear-gradient(160deg, #3b1c12, #220e08);
+            border: 2px solid #d4a359;
+            border-radius: 22px;
+            padding: 32px 24px;
+            width: 100%;
+            max-width: 410px;
+            text-align: center;
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.85),
+                0 0 30px rgba(212, 163, 89, 0.2),
+                inset 0 0 0 5px rgba(212, 163, 89, 0.12);
+            position: relative;
+        }
+        .intro-box::before,
+        .intro-box::after {
+            content: "❄";
+            position: absolute;
+            font-size: 0.95rem;
+            color: rgba(255, 223, 158, 0.45);
+        }
+        .intro-box::before { top: 12px; left: 15px; }
+        .intro-box::after  { bottom: 12px; right: 15px; }
+
+        .intro-box h2 {
+            color: #ffdf9e;
+            font-size: 1.45rem;
+            margin-bottom: 14px;
+            line-height: 1.35;
+            text-shadow: 0 2px 10px rgba(212, 163, 89, 0.3);
+        }
+        .intro-text {
+            color: #ead7c3;
+            font-size: 1.08rem;
+            font-style: italic;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .intro-rules {
+            background: rgba(0, 0, 0, 0.35);
+            border-left: 3px solid #d4a359;
+            border-radius: 10px;
+            padding: 14px 16px;
+            text-align: left;
+            margin-bottom: 22px;
+            font-size: 1.02rem;
+            color: #f5ebe0;
+            line-height: 1.6;
+        }
+        .intro-rules li {
+            list-style: none;
+            margin-bottom: 6px;
+        }
+        .intro-rules li:last-child { margin-bottom: 0; }
     </style>
 </head>
 <body>
+
+    <!-- Flocons en arrière-plan -->
+    <div class="snow-container" id="snowContainer"></div>
 
     <!-- 1. ÉCRAN DE CONNEXION -->
     <div class="login-screen" id="loginScreen">
@@ -458,16 +527,16 @@
             <p class="subtitle">Prouvez que c'est bien vous avant d'entrer mon amour...</p>
             
             <div class="question-group">
-                <label>1. Quel pull vous ai-je donner en premier ? </label>
+                <label>1. Quel pull vous ai-je donné en premier ?</label>
                 <input type="text" id="q1" placeholder="Ta réponse..." onkeydown="if(event.key==='Enter') verifierConnexion()">
             </div>
             
             <div class="question-group">
-                <label>2. Quel jour nous nous sommes vu pour la première fois ? (numero et mois)</label>
+                <label>2. Quel jour nous sommes-nous vus pour la première fois ? (numéro et mois)</label>
                 <input type="text" id="q2" placeholder="Ta réponse..." onkeydown="if(event.key==='Enter') verifierConnexion()">
             </div>
             <div class="question-group">
-                <label>3. Saviez vous que vous aviez un Chéri? Si oui depuis quand avez vous votre Chéri? (réponse souhaitée: oui, depuis le 18 novemebre) </label>
+                <label>3. Saviez-vous que vous aviez un Chéri ? Si oui depuis quand avez-vous votre Chéri ? (réponse souhaitée : oui, depuis le 18 novembre)</label>
                 <input type="text" id="q3" placeholder="Ta réponse..." onkeydown="if(event.key==='Enter') verifierConnexion()">
             </div>
 
@@ -475,22 +544,23 @@
             <p class="error-msg" id="loginError"></p>
         </div>
     </div>
+
     <!-- 1 bis. ÉCRAN DE PRÉSENTATION -->
-<div class="intro-screen" id="introScreen">
-    <div class="intro-box">
-        <h2>Je t'ai préparé un petit quelque'chose pour attendre jusqu'à noël🎄</h2>
-        <p class="intro-text">
-            Derrière chaque fenêtre se cache une petite attention, un indice ou une surprise...
-        </p>
-        <ul class="intro-rules">
-            <li>🕯️ <strong>Une fenêtre par jour (le matin de préférence)</strong> du 1er au 24 décembre (pas de triche !).</li>
-            <li>🎁 <strong>Des indices ou des bons</strong> vous pourrez les utiliser au moment indiquer</li>
-            <li>✨ <strong>La grande porte du 24</strong> vous réserve une surprise spéciale...</li>
-            <li>🆘 <strong>Si vous avez une question ou des difficultés</strong> n'hésitez pas à envoyer un message à votre chéri. Il vous répondra dès que possible</li>
-        </ul>
-        <button class="btn-login" onclick="fermerIntro()">Découvrir mon calendrier</button>
+    <div class="intro-screen" id="introScreen">
+        <div class="intro-box">
+            <h2>Je t'ai préparé un petit quelque chose pour attendre jusqu'à Noël 🎄</h2>
+            <p class="intro-text">
+                Derrière chaque fenêtre se cache une petite attention, un indice ou une surprise...
+            </p>
+            <ul class="intro-rules">
+                <li>🕯️ <strong>Une fenêtre par jour (le matin de préférence)</strong> du 1er au 24 décembre (pas de triche !).</li>
+                <li>🎁 <strong>Des indices ou des bons</strong> vous pourrez les utiliser au moment indiqué.</li>
+                <li>✨ <strong>La grande porte du 24</strong> vous réserve une surprise spéciale...</li>
+                <li>🆘 <strong>Si vous avez une question ou des difficultés</strong> n'hésitez pas à envoyer un message à votre chéri. Il vous répondra dès que possible.</li>
+            </ul>
+            <button class="btn-login" onclick="fermerIntro()">Découvrir mon calendrier</button>
+        </div>
     </div>
-</div>
 
     <!-- 2. IMMEUBLE HAUSSMANNIEN -->
     <div class="calendar-container">
@@ -511,6 +581,24 @@
     </div>
 
     <script>
+        function creerNeige() {
+            const snowContainer = document.getElementById('snowContainer');
+            const symboles = ['❄', '✦', '•', '❅'];
+            const nombreFlocons = 26;
+
+            for (let i = 0; i < nombreFlocons; i++) {
+                const flocon = document.createElement('div');
+                flocon.className = 'snowflake';
+                flocon.innerText = symboles[Math.floor(Math.random() * symboles.length)];
+                flocon.style.left = Math.random() * 100 + 'vw';
+                flocon.style.fontSize = (Math.random() * 10 + 8) + 'px';
+                flocon.style.animationDuration = (Math.random() * 8 + 7) + 's';
+                flocon.style.animationDelay = (Math.random() * 8) + 's';
+                snowContainer.appendChild(flocon);
+            }
+        }
+        creerNeige();
+
         // ==========================================
         // CONFIGURATION PERSONNALISABLE
         // ==========================================
@@ -519,37 +607,36 @@
         const MODE_TEST = true; 
 
         const MOTS_CLES = {
-            q1: ["pull en laine", "pull en laine bleue", "pull en laine bleu","pull bleu"],
-            q2: ["1 octobre", "premier octobre", "01/10", "01/10/2026", "1 octobre 2026","premier octobre 2026"],
+            q1: ["pull en laine", "pull en laine bleue", "pull en laine bleu", "pull bleu"],
+            q2: ["1 octobre", "premier octobre", "01/10", "01/10/2026", "1 octobre 2026", "premier octobre 2026"],
             q3: ["oui, depuis 18 novembre"]
         };
 
-        // Contenu des 24 jours (tu peux ajouter en option : images: ["photo1.jpg"], lienTexte: "...", lienUrl: "...")
         const cadeaux = {
-            1: { titre: "Jour 1", texte: "Pour le premier jour on va commencer tranquillement: trouvez un code à 4 chiffres. Il est quelque part dans votre appatrtement. Indice: il faut dormir la nuit Ma Dame (il vous sera très utile pour plus tard donc conservez le et notez le peut-être sur votre téléphone au cas où)" },
+            1: { titre: "Jour 1", texte: "Pour le premier jour on va commencer tranquillement: trouvez un code à 4 chiffres. Il est quelque part dans votre appartement. Indice: il faut dormir la nuit Ma Dame (il vous sera très utile pour plus tard donc conservez-le et notez-le peut-être sur votre téléphone au cas où)" },
             2: { titre: "Soirée détente", texte: "Un bon pour un massage complet ce soir ou dans la semaine, sans limite de temps" },
             3: { titre: "Jeu de piste", texte: "Premier indice: 'c'est pratique pour faire cuire ses repas'" },
             4: { titre: "Cadeau du jour", texte: "Rien de mieux qu'une boisson chaude pour se réchauffer: allez voir dans votre manteau Ma Dame" },
-            5: { titre: "Surprise du jour", texte: "Ne ne peux être présent pour vous donner celui d'aujourd'hui. Mais il vous attend dans votre salle de bain. Essayez de le trouver" },
-            6: { titre: "Un petit mot pour vous", texte: "Bien que vous receviez des compliments par diverses personnes tout du long de la journée, j'espère ici réussir à me distinguer par ceux que je vous ai préparé. Il ne vous reste plus qu'à les trouver. Indice: si j'étais vous, je dessinerais un peu, cela pourrait vous donner des idées :)" },
+            5: { titre: "Surprise du jour", texte: "Je ne peux être présent pour vous donner celui d'aujourd'hui. Mais il vous attend dans votre salle de bain. Essayez de le trouver" },
+            6: { titre: "Un petit mot pour vous", texte: "Bien que vous receviez des compliments par diverses personnes tout du long de la journée, j'espère ici réussir à me distinguer par ceux que je vous ai préparés. Il ne vous reste plus qu'à les trouver. Indice: si j'étais vous, je dessinerais un peu, cela pourrait vous donner des idées :)" },
             7: { titre: "Pause douceur", texte: "'Est-ce que tu veux monter prendre une tisane ou un thé? oui avec plaisir'. Cela devrait vous aider à deviner votre cadeau d'aujourd'hui très chère" },
             8: { titre: "Instant détente de A à Z", texte: "Récupérez votre produit skincare présent sur la table et profitez de votre matinée" },
-            9: { titre: "Une petite tentation?", texte: "Rejoignez moi à la comédie à 15h30, je vous y attendrai" },
-            10: { titre: "Pourquoi ne pas se détendre aujourd'hui aussi?", texte: "Quoi de mieux que de bonne odeurs pour se relaxer. Votre cadeau vous attends sur la petite table" },
-            11: { titre: "Nous sommes presque à la moitié", texte: "Sauf que vous êtes ma moitié. Je vais donc vous faire cadeau de moi-même", lienTexte: "Ouvrir l'accès privé 🔥", lienUrl: "galerie.html" },
+            9: { titre: "Une petite tentation?", texte: "Rejoignez-moi à la Comédie à 15h30, je vous y attendrai" },
+            10: { titre: "Pourquoi ne pas se détendre aujourd'hui aussi?", texte: "Quoi de mieux que de bonnes odeurs pour se relaxer. Votre cadeau vous attend sur la petite table" },
+            11: { titre: "Nous sommes presque à la moitié", texte: "Sauf que vous êtes ma moitié. Je vais donc vous faire cadeau de moi-même", lienTexte: "Ouvrir l'accès privé", lienUrl: "galerie.html" },
             12: { titre: "Rester au chaud semble être une bonne idée vous ne pensez pas?", texte: "Aujourd'hui je vous tiens chaud, mais lorsque je ne suis pas là, vous devez être frigorifiée ma Chérie. J'ai donc trouvé la solution pour vous :)" },
-            13: { titre: "Rendez-vous ce soir", texte: "Soyez prête pour 18h et habillez vous chaudement" },
-            14: { titre: "Avez-vous soif?", texte: "Bonjour Ma Dame, je vous laisse aujourd'hui pour aller en projet. Pensez à moi lorsque vous buverez votre infusion de votre couleur préférée !" },
-            15: { titre: "Bien être mental", texte: "J'espère que vous avez toujours confiance en vous. Si ce n'est pas le cas, n'oubliez pas que moi je crois en vous. En voici la preuve: un pot avec des mots qui vous feront sourir" },
+            13: { titre: "Rendez-vous ce soir", texte: "Soyez prête pour 18h et habillez-vous chaudement" },
+            14: { titre: "Avez-vous soif?", texte: "Bonjour Ma Dame, je vous laisse aujourd'hui pour aller en projet. Pensez à moi lorsque vous boirez votre infusion de votre couleur préférée !" },
+            15: { titre: "Bien-être mental", texte: "J'espère que vous avez toujours confiance en vous. Si ce n'est pas le cas, n'oubliez pas que moi je crois en vous. En voici la preuve: un pot avec des mots qui vous feront sourire" },
             16: { titre: "Livraison surprise", texte: "Il se peut que quelqu'un vous appelle ou sonne à votre porte. Alors soyez attentive pour ne pas louper votre cadeau" },
             17: { titre: "La surprise pour Ma Dame", texte: "Indice: Devenez une héroïne de film pendant 15 min" },
-            18: { titre: "Bien être mental, bis, le retour, la version V2", texte: "Bon vous l'avez compris aujourd'hui vous êtes à l'honneur. Lisez autant de compliments et de petit mots doux que vous le désirez" },
-            19: { titre: "On sort le grand jeu?", texte: "Aujourd'hui, vous allez devoir réflechir pour obtenir votre cadeau. Oui, il se mérite. Première énigme: Sortez prendre l'air. Pour trouver votre premier indice, retournez au point zéro : là où les Food Runners se croisent et où nous avons bu notre premier verre (c'était un mardi soir). Une fois sur place, adoptez le réflexe d'une architecte d'intérieur : ne regardez pas le menu, observez l'enveloppe du bâtiment. Comptez le nombre de grandes doubles portes sur la façade principale. Si ce nombre est pair, dirigez-vous vers la fontaine, Place de la Comédie. Si ce nombre est impair, dirigez-vous vers l'Arc de Triomphe. Une fois arrivée, envoyez-moi une photo du monument pour débloquer la suite du plan."},
-            20: { titre: "Une belle matinée d'hiver", texte: "Je vous reserve votre repas préféré. Attendez moi là le temps que je vous le prépare" },
-            21: { titre: "Compte goute", texte: "Et oui, je vous avez prévenu, ils arrivent au fur et à mesure. Mais au moins vous pouvez penser à moi lorsque vous en prenez avec votre famille par exemple" },
-            22: { titre: "Préparation", texte: "Bien que vous soyez sublime, il faut se préparer pour le réveillons. Quoi de mieux que de la skincare pour embillir votre peau? Elle se trouve peut être dans une poche de vos affaires" },
-            23: { titre: "Pour vous et rien que pour vous", texte: "Après trois versions papiers, voici une version numérique. Profitez d'une attaque de bienveillance avant d'affronter les durs et longs repas de noël", lienUrl: "mots-doux.html" },
-            24: { titre: "🎄 Joyeux Réveillon 🎄", texte: "Le grand final vous attend. Suivez le lien et laissez-vous portée:", lienUrl: "qcm.html" }
+            18: { titre: "Bien-être mental, bis, le retour, la version V2", texte: "Bon vous l'avez compris aujourd'hui vous êtes à l'honneur. Lisez autant de compliments et de petits mots doux que vous le désirez" },
+            19: { titre: "On sort le grand jeu?", texte: "Aujourd'hui, vous allez devoir réfléchir pour obtenir votre cadeau. Oui, il se mérite. Première énigme: Sortez prendre l'air. Pour trouver votre premier indice, retournez au point zéro : là où les Food Runners se croisent et où nous avons bu notre premier verre (c'était un mardi soir). Une fois sur place, adoptez le réflexe d'une architecte d'intérieur : ne regardez pas le menu, observez l'enveloppe du bâtiment. Comptez le nombre de grandes doubles portes sur la façade principale. Si ce nombre est pair, dirigez-vous vers le meilleur des bars pour danser. Si ce nombre est impair, dirigez-vous vers l'Arc de Triomphe. Une fois arrivée, envoyez-moi une photo du monument pour débloquer la suite du plan."},
+            20: { titre: "Une belle matinée d'hiver", texte: "Je vous réserve votre repas préféré. Attendez-moi là le temps que je vous le prépare" },
+            21: { titre: "Compte-gouttes", texte: "Et oui, je vous avais prévenue, ils arrivent au fur et à mesure. Mais au moins vous pouvez penser à moi lorsque vous en prenez avec votre famille par exemple" },
+            22: { titre: "Préparation", texte: "Bien que vous soyez sublime, il faut se préparer pour le réveillon. Quoi de mieux que de la skincare pour embellir votre peau? Elle se trouve peut-être dans une poche de vos affaires" },
+            23: { titre: "Pour vous et rien que pour vous", texte: "Après trois versions papier, voici une version numérique. Profitez d'une attaque de bienveillance avant d'affronter les durs et longs repas de Noël", lienTexte: "Ouvrir ma boîte à mots doux", lienUrl: "mots-doux.html" },
+            24: { titre: "Joyeux Réveillon !", texte: "Le grand final vous attend. Suivez le lien et laissez-vous porter :", lienTexte: "Lancer le QCM final", lienUrl: "qcm.html" }
         };
 
         // ==========================================
@@ -566,33 +653,33 @@
         }
 
         window.onload = function() {
-            if (MODE_TEST) localStorage.clear();// A RETIRER POUR QUE CA FONCTIONE
             if (localStorage.getItem('calendrier_connecte') === 'true') {
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('introScreen').style.display = 'none';
             }
             genererFenetres();
         };
+
         function fermerIntro() {
-    document.getElementById('introScreen').classList.add('hidden');
-}
+            document.getElementById('introScreen').classList.add('hidden');
+        }
 
         function verifierConnexion() {
-    const rep1 = nettoyerReponse(document.getElementById('q1').value);
-    const rep2 = nettoyerReponse(document.getElementById('q2').value);
-    const rep3 = nettoyerReponse(document.getElementById('q3').value);
+            const rep1 = nettoyerReponse(document.getElementById('q1').value);
+            const rep2 = nettoyerReponse(document.getElementById('q2').value);
+            const rep3 = nettoyerReponse(document.getElementById('q3').value);
 
-    const ok1 = MOTS_CLES.q1.some(mot => nettoyerReponse(mot) === rep1);
-    const ok2 = MOTS_CLES.q2.some(mot => nettoyerReponse(mot) === rep2);
-    const ok3 = MOTS_CLES.q3.some(mot => nettoyerReponse(mot) === rep3);
+            const ok1 = MOTS_CLES.q1.some(mot => nettoyerReponse(mot) === rep1);
+            const ok2 = MOTS_CLES.q2.some(mot => nettoyerReponse(mot) === rep2);
+            const ok3 = MOTS_CLES.q3.some(mot => nettoyerReponse(mot) === rep3);
 
-    if (ok1 && ok2 && ok3) {
-        localStorage.setItem('calendrier_connecte', 'true');
-        document.getElementById('loginScreen').classList.add('hidden');
-    } else {
-        document.getElementById('loginError').innerText = "Hmm... Pas tout à fait ! Réessaie 😉";
-    }
-}
+            if (ok1 && ok2 && ok3) {
+                localStorage.setItem('calendrier_connecte', 'true');
+                document.getElementById('loginScreen').classList.add('hidden');
+            } else {
+                document.getElementById('loginError').innerText = "Hmm... Pas tout à fait ! Réessaie 😉";
+            }
+        }
 
         function genererFenetres() {
             const container = document.getElementById('windowsContainer');
@@ -617,37 +704,32 @@
         function ouvrirCase(jour) {
             const maintenant = new Date();
             const jourActuel = maintenant.getDate();
-            const moisActuel = maintenant.getMonth(); // 11 = Décembre
+            const moisActuel = maintenant.getMonth();
 
             if (!MODE_TEST && (moisActuel !== 11 || jourActuel < jour)) {
-                if (!MODE_TEST && (moisActuel !== 11 || jourActuel < jour)) {
-    // 1. Fait trembler la fenêtre cliquée
-    const laCase = document.querySelector(`.case-${jour}`);
-    laCase.classList.remove('locked-shake');
-    void laCase.offsetWidth; // Force le redémarrage de l'animation si elle re-clique
-    laCase.classList.add('locked-shake');
+                const laCase = document.querySelector(`.case-${jour}`);
+                laCase.classList.remove('locked-shake');
+                void laCase.offsetWidth;
+                laCase.classList.add('locked-shake');
 
-    // 2. Calcule le temps restant jusqu'au jour J à minuit
-    const dateOuverture = new Date(maintenant.getFullYear(), 11, jour, 0, 0, 0);
-    const diffMs = dateOuverture - maintenant;
-    const joursRestants = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-    const heuresRestantes = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
-    const minutesRestantes = Math.floor((diffMs / (1000 * 60)) % 60);
+                const dateOuverture = new Date(maintenant.getFullYear(), 11, jour, 0, 0, 0);
+                const diffMs = dateOuverture - maintenant;
+                const joursRestants = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+                const heuresRestantes = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
+                const minutesRestantes = Math.floor((diffMs / (1000 * 60)) % 60);
 
-    // 3. Affiche la belle modale en mode "Patience"
-    document.getElementById('modalDate').innerText = "🔒 Fenêtre verrouillée";
-    document.getElementById('modalTitle').innerText = "Pas si vite, curieuse ! 😏";
-    document.getElementById('modalText').innerHTML = `
-        Cette fenêtre ne s'ouvrira que le <strong>${jour === 1 ? "1er" : jour} décembre</strong>.<br><br>
-        <span style="color: #ffdf9e; font-size: 0.95rem;">
-            ⏳ Ouverture dans <strong>${joursRestants}j ${heuresRestantes}h ${minutesRestantes}min</strong>
-        </span>
-    `;
-    document.getElementById('modalGallery').innerHTML = "";
-    document.getElementById('modalLink').style.display = "none";
-    document.getElementById('giftModal').classList.add('active');
-    return;
-}
+                document.getElementById('modalDate').innerText = "Fenêtre verrouillée";
+                document.getElementById('modalTitle').innerText = "Hop hop hop, vous avez essayé de tricher là !";
+                document.getElementById('modalText').innerHTML = `
+                    Cette fenêtre ne s'ouvrira que le <strong>${jour === 1 ? "1er" : jour} décembre</strong>.<br><br>
+                    <span style="color: #ffdf9e; font-size: 1.05rem;">
+                        Ouverture dans <strong>${joursRestants}j ${heuresRestantes}h ${minutesRestantes}min</strong>
+                    </span>
+                `;
+                document.getElementById('modalGallery').innerHTML = "";
+                document.getElementById('modalLink').style.display = "none";
+                document.getElementById('giftModal').classList.add('active');
+                return;
             }
 
             let casesOuvertes = JSON.parse(localStorage.getItem('cases_ouvertes')) || [];
@@ -661,16 +743,14 @@
             document.querySelector(`.case-${jour}`).classList.add('opened');
 
             const contenu = cadeaux[jour] || { 
-                titre: `🎄 Surprise du ${jour} Décembre 🎄`, 
-                texte: "Le lutin est en train de préparer cette surprise... Reviens dans quelques instants ! ✨" 
+                titre: `Surprise du ${jour} Décembre`, 
+                texte: "Le lutin est en train de préparer cette surprise... Reviens dans quelques instants" 
             };
 
-            // Remplissage de la modale
             document.getElementById('modalDate').innerText = (jour === 1 ? "1er" : jour) + " Décembre";
             document.getElementById('modalTitle').innerText = contenu.titre;
             document.getElementById('modalText').innerText = contenu.texte;
 
-            // Gestion des photos optionnelles
             const gallery = document.getElementById('modalGallery');
             gallery.innerHTML = "";
             if (contenu.images && contenu.images.length > 0) {
@@ -681,17 +761,15 @@
                 });
             }
 
-            // Gestion du bouton optionnel (ex: vers le QCM du 24)
             const linkBtn = document.getElementById('modalLink');
             if (contenu.lienUrl) {
                 linkBtn.href = contenu.lienUrl;
-                linkBtn.innerText = contenu.lienTexte || "Découvrir la surprise ✨";
+                linkBtn.innerText = contenu.lienTexte || "Découvrir la surprise";
                 linkBtn.style.display = "inline-block";
             } else {
                 linkBtn.style.display = "none";
             }
 
-            // Si c'est la 1ère ouverture, on laisse 550ms pour admirer l'animation des volets
             const delai = dejaOuverte ? 0 : 550;
             setTimeout(() => {
                 document.getElementById('giftModal').classList.add('active');

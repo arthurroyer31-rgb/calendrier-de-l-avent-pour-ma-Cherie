@@ -4,57 +4,116 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Le Grand Final — 24 Décembre 🎄</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            background-color: #0d131f;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background:
+                radial-gradient(circle at 50% 25%, rgba(212, 163, 89, 0.16) 0%, transparent 55%),
+                radial-gradient(circle at 80% 85%, rgba(120, 24, 34, 0.28) 0%, transparent 50%),
+                linear-gradient(170deg, #160c10 0%, #0d1514 55%, #140b0e 100%);
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.12rem;
             color: #fff;
             min-height: 100vh;
             padding: 24px 16px 40px;
             display: flex;
             justify-content: center;
             align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .snow-container {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .snowflake {
+            position: absolute;
+            top: -20px;
+            color: rgba(255, 236, 195, 0.55);
+            text-shadow: 0 0 6px rgba(212, 163, 89, 0.5);
+            user-select: none;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% {
+                transform: translateY(-20px) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 0.85; }
+            90% { opacity: 0.7; }
+            100% {
+                transform: translateY(105vh) translateX(25px) rotate(360deg);
+                opacity: 0;
+            }
         }
 
         .container {
             width: 100%;
             max-width: 460px;
-            background: linear-gradient(160deg, #331c0d, #1f1006);
+            background:
+                radial-gradient(circle at top right, rgba(212, 163, 89, 0.14), transparent 60%),
+                linear-gradient(160deg, #3b1c12, #220e08);
             border: 2px solid #d4a359;
             border-radius: 22px;
-            padding: 28px 22px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85), 0 0 25px rgba(212, 163, 89, 0.2);
+            padding: 32px 24px;
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.85),
+                0 0 30px rgba(212, 163, 89, 0.2),
+                inset 0 0 0 5px rgba(212, 163, 89, 0.12);
             text-align: center;
+            position: relative;
+            z-index: 1;
         }
+
+        .container::before,
+        .container::after {
+            content: "❄";
+            position: absolute;
+            font-size: 1rem;
+            color: rgba(255, 223, 158, 0.45);
+        }
+        .container::before { top: 12px; left: 15px; }
+        .container::after  { bottom: 12px; right: 15px; }
 
         .badge {
             display: inline-block;
-            background: rgba(212, 163, 89, 0.2);
+            background: rgba(138, 28, 38, 0.35);
             color: #ffdf9e;
             border: 1px solid #d4a359;
-            padding: 4px 14px;
+            padding: 5px 16px;
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-family: 'Cinzel', serif;
+            font-size: 0.78rem;
             letter-spacing: 1px;
             text-transform: uppercase;
             margin-bottom: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
         }
 
         h1 {
+            font-family: 'Cinzel', serif;
             color: #fff5e4;
             font-size: 1.5rem;
             margin-bottom: 8px;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 10px rgba(212, 163, 89, 0.3);
         }
 
         .subtitle {
             color: #ead7c3;
-            font-size: 0.92rem;
+            font-size: 1.08rem;
+            font-style: italic;
             margin-bottom: 22px;
             line-height: 1.5;
         }
 
-        /* Barre de progression */
         .progress-bar {
             width: 100%;
             height: 6px;
@@ -71,8 +130,9 @@
         }
 
         .question-title {
+            font-family: 'Cinzel', serif;
             color: #ffdf9e;
-            font-size: 1.12rem;
+            font-size: 1.08rem;
             margin-bottom: 18px;
             line-height: 1.45;
         }
@@ -91,7 +151,8 @@
             border: 1.5px solid #8b5a2b;
             border-radius: 12px;
             color: #f5ebe0;
-            font-size: 0.98rem;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.12rem;
             text-align: left;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -114,7 +175,7 @@
 
         .feedback {
             min-height: 24px;
-            font-size: 0.9rem;
+            font-size: 1.05rem;
             color: #ffdf9e;
             margin-bottom: 14px;
             font-style: italic;
@@ -123,15 +184,18 @@
         .btn-gold {
             display: inline-block;
             width: 100%;
-            padding: 13px;
-            border: none;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #d4a359, #a67228);
+            padding: 14px;
+            border: 1px solid #ffe4a3;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #e0b263, #a67228);
             color: #1a0e05;
-            font-weight: bold;
-            font-size: 1rem;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 0.98rem;
+            letter-spacing: 0.5px;
             text-decoration: none;
             cursor: pointer;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.6), 0 0 15px rgba(212, 163, 89, 0.25);
             transition: transform 0.2s;
             margin-top: 6px;
         }
@@ -139,9 +203,9 @@
 
         .btn-secondary {
             display: inline-block;
-            margin-top: 14px;
+            margin-top: 16px;
             color: #d6c3b0;
-            font-size: 0.88rem;
+            font-size: 1.02rem;
             text-decoration: none;
             border-bottom: 1px solid rgba(214, 195, 176, 0.4);
             padding-bottom: 2px;
@@ -162,17 +226,18 @@
             padding: 18px;
             margin: 18px 0;
             color: #fff5e4;
-            line-height: 1.6;
-            font-size: 1rem;
+            line-height: 1.65;
+            font-size: 1.15rem;
         }
     </style>
 </head>
 <body>
 
+    <div class="snow-container" id="snowContainer"></div>
+
     <div class="container">
         <span class="badge">🎄 24 Décembre — Épreuve Finale</span>
 
-        <!-- ÉCRAN DU QUIZ -->
         <div id="quizSection">
             <h1>Le QCM de Noël</h1>
             <p class="subtitle">Dernière petite étape avant de débloquer votre cadeau du réveillon Ma Dame...</p>
@@ -187,20 +252,38 @@
             <button class="btn-gold" id="nextBtn" style="display: none;" onclick="questionSuivante()">Question suivante →</button>
         </div>
 
-        <!-- ÉCRAN DE RÉSULTAT / CADEAU -->
         <div class="final-box" id="finalSection">
-            <h1 id="finalTitle">Bravo mon amour ! ✨</h1>
+            <h1 id="finalTitle">Bravo mon amour !</h1>
             <p class="subtitle" id="scoreText"></p>
-            <div class="gift-reveal" id="giftContent"></div>
-            <button class="btn-gold" id="retryBtn" style="display: none;" onclick="recommencerQuiz()">Retenter pour le sans-faute 😉</button>
+            <div class="gift-reveal">
+                Vous avez brillamment réussi cette dernière épreuve Ma Dame.<br>
+                Votre véritable surprise du 24 décembre vous attend juste derrière cette porte...
+            </div>
+            <a href="declaration.html" class="btn-gold">Ouvrir ma surprise finale</a>
+            <button class="btn-gold" id="retryBtn" style="display: none; background: transparent; color: #ffdf9e; border: 1px solid #d4a359;" onclick="recommencerQuiz()">Retenter pour le sans-faute 😉</button>
             <a href="index.html" class="btn-secondary">← Retourner à l'immeuble</a>
         </div>
     </div>
 
     <script>
-        // ==========================================
-        // CONFIGURATION DU QCM (À PERSONNALISER)
-        // ==========================================
+        function creerNeige() {
+            const snowContainer = document.getElementById('snowContainer');
+            const symboles = ['❄', '✦', '•', '❅'];
+            const nombreFlocons = 28;
+
+            for (let i = 0; i < nombreFlocons; i++) {
+                const flocon = document.createElement('div');
+                flocon.className = 'snowflake';
+                flocon.innerText = symboles[Math.floor(Math.random() * symboles.length)];
+                flocon.style.left = Math.random() * 100 + 'vw';
+                flocon.style.fontSize = (Math.random() * 10 + 8) + 'px';
+                flocon.style.animationDuration = (Math.random() * 8 + 7) + 's';
+                flocon.style.animationDelay = (Math.random() * 8) + 's';
+                snowContainer.appendChild(flocon);
+            }
+        }
+        creerNeige();
+
         const QUESTIONS = [
             {
                 question: "1. Où a-t-on bu notre tout premier verre ensemble ?",
@@ -210,9 +293,9 @@
                     "Sur la Promenade du Peyrou",
                     "À Port Marianne"
                 ],
-                bonneReponse: 1, // Index de la bonne réponse (0 = 1er choix, 1 = 2ème choix...)
-                commentaireOk: "Exactement ! Le début de tout ❤️",
-                commentaireFaux: "Oups ! C'était aux Food Runners un mardi soir 😉"
+                bonneReponse: 1,
+                commentaireOk: "Et dire que je n'avais encore jamais gouté les gingerbeers",
+                commentaireFaux: "Attention aux redflags Ma Dame"
             },
             {
                 question: "2. Quelle est la qualité que j'admire le plus chez vous ?",
@@ -223,8 +306,8 @@
                     "Toutes les réponses ci-dessus (évidemment)"
                 ],
                 bonneReponse: 3,
-                commentaireOk: "Sans aucune hésitation ✨",
-                commentaireFaux: "Trop modeste ! La bonne réponse était évidemment toutes les réponses 😉"
+                commentaireOk: "Vous me connaissez si bien?",
+                commentaireFaux: "Faites un effort s'il vous plait ma Chérie"
             },
             {
                 question: "3. Depuis quelle date officielle avez-vous le meilleur chéri ?",
@@ -235,33 +318,101 @@
                     "Depuis toujours"
                 ],
                 bonneReponse: 1,
-                commentaireOk: "Date gravée dans le marbre 🗓️",
-                commentaireFaux: "Rappelez-vous de la question d'entrée de l'immeuble : le 18 novembre !"
+                commentaireOk: "Vous imaginez? Vous avez un Chéri depuis un mois et six jours maintenant (et pour longtemps)",
+                commentaireFaux: "Vous l'aviez donner pour avoir accès au calendrier tout de même"
             },
             {
                 question: "4. Quel est le programme idéal pour nous deux ?",
                 choix: [
-                    "Un bon resto en tête-à-tête",
+                    "Une soirée romantique en tête-à-tête",
                     "Rester au chaud sous un plaid avec une infusion",
                     "Une balade dans Montpellier",
-                    "Peu importe, tant qu'on est ensemble"
+                    "Peu importe, tant que nous sommes ensemble"
                 ],
                 bonneReponse: 3,
-                commentaireOk: "Meilleure réponse possible 🥰",
-                commentaireFaux: "C'est sympa aussi, mais la vraie réponse c'est : tant qu'on est ensemble ❤️"
-            }
+                commentaireOk: "Même vingt secondes sur le pas de la porte nous suffisent",
+                commentaireFaux: "Si vous lisez ça c'est que vous avez fait exprès..."
+            },
+            {
+                question: "5. Combien de temps nous nous sommes vu ce fameux soir ou je vous ai apporté des oeufs?",
+                choix: [
+                    "trente secondes",
+                    "une heure dix-huit",
+                    "vingt secondes (qui ont en réalité durées deux heures et quart)",
+                    "mille soirées"
+                ],
+                bonneReponse: 2,
+                commentaireOk: "cette anecdote restera gravée en moi pour l'éternité",
+                commentaireFaux: "tout de même, j'avais même pris le bus sur le pont de sètes en rentrant"
+            },
+            {
+                question: "6. Quel repas nous unit pour le restant de nos jours ?",
+                choix: [
+                    "un diner aux chandelles",
+                    "Un brunch auquel j'ai réagis sur instagram sans quoi nous aurions attendu au minimum une semaine de plus avant de faire connaissance",
+                    "Un gouter",
+                    "Un banana bread que tu n'as pas fait le soir où tu devais le faire"
+                ],
+                bonneReponse: 1,
+                commentaireOk: "Il fallait bien que je me démarque des autres",
+                commentaireFaux: "je veux bien avouer que le banana bread pouvait être également une bonne réponse"
+            },
+            {
+                question: "7. Quelle tenue vous met le plus en valeur ?",
+                choix: [
+                    "La magnifique robe grise",
+                    "Ma chemise",
+                    "Votre jupe noire et haut noire de notre première danse à la bachata",
+                    "Vous êtes la plus élégante, sublime, radieuse et merveilleuse des femmes, peu importe la tenue que vous portez"
+                ],
+                bonneReponse: 3,
+                commentaireOk: "Mon objectif est de vous faire rougir, vous êtes beaucoup trop mignonne à ce moment là. Je regrette juste de ne pas être présent à vos côté pour vous voir",
+                commentaireFaux: "j'aurais pu rajouter 'dans mes pulls'"
+            },
+            {
+                question: "8. Combien de mots ( ccompliments) vous ai-je écrit au total ? (physique et numérique)",
+                choix: [
+                    "4 (il se peut que cette réponse me vexe)",
+                    "25 (attention a vos chevilles, même si vous êtes le centre de mon monde)",
+                    "60 (en écrire autant ne prends pas si longtemps lorsqu'une certaine personne nous inspire)",
+                    "26 (comme la date de votre anniversaire?)",
+                ],
+                bonneReponse: 2,
+                commentaireOk: "Vous pouvez les lire quand vous en aurez besoin :)",
+                commentaireFaux: "et oui, il y en avait si peu"
+            },
+            {
+                question: "9. Quelle était la significtaion du bouquet que vous avez reçu? ",
+                choix: [
+                    "Une demande en mariage (vu le nombre de fleurs...)",
+                    "Je vous apprécie, pouvons nous faire connaissance?",
+                    "Votre présence ne m'est pas désagréable",
+                    "Mes sentiments envers vous Ma Dame sont on ne peut plus sincères. Mais aussi tendresse douceur et admiration",
+                ],
+                bonneReponse: 3,
+                commentaireOk: "J'essaie de faire attention aux significations, c'est très important (quelqu'un m'en a parlé pendant un ravito au 10km d'haloween)",
+                commentaireFaux: "AAh bon? si c'est vrai je n'étais point au courant"
+            },
+            {
+                question: "10. The Last One : How we say 'i love you' in french? ",
+                choix: [
+                    "je vous aime (classique)",
+                    "Vous êtes la prunelle de mes yeux (un peu mieux)",
+                    "Ma Dame, Mathilde, vous êtes la reine de mes jours, mon guide dans la nuit. Je ne saurais vous dire ce que je ne pourrais point faire pour vous. Je suis incapable de réduire mes pensées à une seule phrase de trois mots. Il m'en faudrait au moins soixante et malgrès tout, cela ne suffirait point. Veuillez entendre ma modeste déclaration",
+                    "jtm (je pense qu'il vaut mieux rien envoyer plutot qu'un vieux jtm comme ça non?)",
+                ],
+                bonneReponse: 2,
+                commentaireOk: "Vous êtes des plus perspicaces ma Chère",
+                commentaireFaux: "bon, eh bah je vous referai une déclaration plus explicite la prochaine fois alors..."
+            },
         ];
 
-        // Texte affiché une fois le QCM terminé (tu peux y mettre l'indice du code à 4 chiffres du Jour 1 !)
         const CADEAU_FINAL_HTML = `
-            <strong>🎁 Votre surprise du Réveillon est débloquée !</strong><br><br>
+            <strong> Votre surprise du Réveillon est débloquée !</strong><br><br>
             Vous vous souvenez du <strong>code à 4 chiffres</strong> trouvé le 1er décembre ?<br>
-            Il est temps de l'utiliser... (ou venez me voir avec votre plus beau sourire pour récupérer votre cadeau 🎄✨)
+            Il est temps de l'utiliser...
         `;
 
-        // ==========================================
-        // LOGIQUE DU QCM
-        // ==========================================
         let indexActuel = 0;
         let score = 0;
 

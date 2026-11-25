@@ -3,68 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Attaque de Bienveillance 💌</title>
+    <title>Attaque de Bienveillance 🎄</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            background-color: #0d131f;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Fond Noël chaleureux : halo doré doux sur nuit bordeaux/sapin profond */
+            background:
+                radial-gradient(circle at 50% 25%, rgba(212, 163, 89, 0.16) 0%, transparent 55%),
+                radial-gradient(circle at 80% 85%, rgba(120, 24, 34, 0.28) 0%, transparent 50%),
+                linear-gradient(170deg, #160c10 0%, #0d1514 55%, #140b0e 100%);
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.12rem;
             color: #fff;
             min-height: 100vh;
             padding: 24px 16px 40px;
             display: flex;
             justify-content: center;
             align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- FLOCONS DE NEIGE EN ARRIÈRE-PLAN --- */
+        .snow-container {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .snowflake {
+            position: absolute;
+            top: -20px;
+            color: rgba(255, 236, 195, 0.55);
+            text-shadow: 0 0 6px rgba(212, 163, 89, 0.5);
+            user-select: none;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% {
+                transform: translateY(-20px) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 0.85; }
+            90% { opacity: 0.7; }
+            100% {
+                transform: translateY(105vh) translateX(25px) rotate(360deg);
+                opacity: 0;
+            }
         }
 
         .container {
             width: 100%;
             max-width: 440px;
             text-align: center;
+            position: relative;
+            z-index: 1;
         }
 
         .badge {
             display: inline-block;
-            background: rgba(212, 163, 89, 0.2);
+            background: rgba(138, 28, 38, 0.35);
             color: #ffdf9e;
             border: 1px solid #d4a359;
-            padding: 4px 14px;
+            padding: 5px 16px;
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-family: 'Cinzel', serif;
+            font-size: 0.78rem;
             letter-spacing: 1px;
             text-transform: uppercase;
             margin-bottom: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
         }
 
         h1 {
+            font-family: 'Cinzel', serif;
             color: #fff5e4;
             font-size: 1.55rem;
             margin-bottom: 8px;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 10px rgba(212, 163, 89, 0.3);
         }
 
         .subtitle {
             color: #ead7c3;
-            font-size: 0.92rem;
+            font-size: 1.08rem;
+            font-style: italic;
             margin-bottom: 24px;
             line-height: 1.5;
         }
 
-        /* Carte du compliment */
+        /* --- CARTE DU COMPLIMENT FAÇON CARTE DE VŒUX --- */
         .note-card {
-            background: linear-gradient(160deg, #331c0d, #1f1006);
+            background:
+                radial-gradient(circle at top right, rgba(212, 163, 89, 0.14), transparent 60%),
+                linear-gradient(160deg, #3b1c12, #220e08);
             border: 2px solid #d4a359;
             border-radius: 22px;
-            padding: 36px 24px;
-            min-height: 230px;
+            padding: 38px 26px;
+            min-height: 250px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 25px rgba(212, 163, 89, 0.18);
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.85),
+                0 0 30px rgba(212, 163, 89, 0.2),
+                inset 0 0 0 5px rgba(212, 163, 89, 0.12);
             margin-bottom: 20px;
             position: relative;
             transition: transform 0.35s ease, opacity 0.35s ease;
         }
+
+        /* Ornements dorés dans les coins de la carte */
+        .note-card::before,
+        .note-card::after {
+            content: "❄";
+            position: absolute;
+            font-size: 1rem;
+            color: rgba(255, 223, 158, 0.45);
+        }
+        .note-card::before { top: 12px; left: 15px; }
+        .note-card::after  { bottom: 12px; right: 15px; }
 
         .note-card.flip {
             transform: scale(0.95);
@@ -72,34 +135,47 @@
         }
 
         .note-icon {
-            font-size: 2rem;
+            font-family: 'Cinzel', serif;
+            font-size: 1.02rem;
+            font-weight: 600;
+            color: #ffdf9e;
+            line-height: 1.45;
             margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(212, 163, 89, 0.35);
+            width: 100%;
+        }
+
+        .note-icon:empty {
+            display: none;
         }
 
         .note-text {
             color: #fff5e4;
-            font-size: 1.15rem;
+            font-size: 1.28rem;
             line-height: 1.65;
             font-style: italic;
         }
 
         .counter {
-            font-size: 0.82rem;
-            color: #d4a359;
+            font-size: 0.95rem;
+            color: #e6c280;
             margin-bottom: 16px;
         }
 
         .btn-gold {
             width: 100%;
             padding: 14px;
-            border: none;
+            border: 1px solid #ffe4a3;
             border-radius: 14px;
-            background: linear-gradient(135deg, #d4a359, #a67228);
+            background: linear-gradient(135deg, #e0b263, #a67228);
             color: #1a0e05;
-            font-weight: bold;
-            font-size: 1.02rem;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 0.98rem;
+            letter-spacing: 0.5px;
             cursor: pointer;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.6), 0 0 15px rgba(212, 163, 89, 0.25);
             transition: transform 0.2s;
             margin-bottom: 16px;
         }
@@ -109,7 +185,7 @@
         .btn-back {
             display: inline-block;
             color: #d6c3b0;
-            font-size: 0.9rem;
+            font-size: 1.02rem;
             text-decoration: none;
             border-bottom: 1px solid rgba(214, 195, 176, 0.4);
             padding-bottom: 2px;
@@ -118,41 +194,65 @@
 </head>
 <body>
 
+    <!-- Flocons en arrière-plan -->
+    <div class="snow-container" id="snowContainer"></div>
+
     <div class="container">
-        <span class="badge">💌 23 Décembre — Dose de bonheur</span>
+        <span class="badge">🎄 23 Décembre — Dose de bonheur</span>
         <h1>Rien que pour vous Ma Dame</h1>
         <p class="subtitle">À consommer sans modération dès que vous avez besoin d'un sourire ✨</p>
 
         <div class="note-card" id="noteCard">
-            <div class="note-icon" id="noteIcon">✨</div>
+            <div class="note-icon" id="noteIcon"></div>
             <p class="note-text" id="noteText">Appuyez sur le bouton ci-dessous pour piocher votre premier mot doux...</p>
         </div>
 
         <div class="counter" id="counterText">0 / 15 découverts</div>
 
-        <button class="btn-gold" onclick="piocherMotDoux()">Piocher un petit mot 💌</button>
+        <button class="btn-gold" onclick="piocherMotDoux()">Piocher un petit mot ✨</button>
         <br>
         <a href="index.html" class="btn-back">← Retourner à l'immeuble</a>
     </div>
 
     <script>
+        // Génération douce des flocons de Noël
+        function creerNeige() {
+            const snowContainer = document.getElementById('snowContainer');
+            const symboles = ['❄', '✦', '•', '❅'];
+            const nombreFlocons = 28;
+
+            for (let i = 0; i < nombreFlocons; i++) {
+                const flocon = document.createElement('div');
+                flocon.className = 'snowflake';
+                flocon.innerText = symboles[Math.floor(Math.random() * symboles.length)];
+                flocon.style.left = Math.random() * 100 + 'vw';
+                flocon.style.fontSize = (Math.random() * 10 + 8) + 'px';
+                flocon.style.animationDuration = (Math.random() * 8 + 7) + 's';
+                flocon.style.animationDelay = (Math.random() * 8) + 's';
+                snowContainer.appendChild(flocon);
+            }
+        }
+        creerNeige();
+
         // ==========================================
         // TA LISTE DE COMPLIMENTS & MOTS DOUX
-        // (Tu peux en ajouter ou modifier autant que tu veux !)
         // ==========================================
         const MOTS_DOUX = [
-            { icon: "✨", texte: "Vous êtes de loin la plus belle rencontre que j'ai faite." },
-            { icon: "🏛️", texte: "J'adore la façon dont votre regard d'architecte remarque les petits détails que personne d'autre ne voit." },
-            { icon: "😊", texte: "Votre sourire suffit à rattraper n'importe quelle journée compliquée." },
-            { icon: "🔥", texte: "Vous êtes sublime, même quand vous pensez ne pas être apprêtée." },
-            { icon: "☕", texte: "Chaque moment passé avec vous, même autour d'une simple tisane, est mon moment préféré de la journée." },
-            { icon: "💪", texte: "N'oubliez jamais tout ce que vous êtes capable d'accomplir : je suis tellement fier de vous." },
-            { icon: "❤️", texte: "Depuis le 18 novembre, j'ai l'impression d'avoir tiré le gros lot." },
-            { icon: "🌙", texte: "J'aime votre douceur, votre humour et la manière dont vous prenez soin des gens autour de vous." },
-            { icon: "🧶", texte: "Le pull en laine bleue vous va décidément beaucoup mieux qu'à moi." },
-            { icon: "🌟", texte: "Vous avez une élégance naturelle qui ne laisse personne indifférent." },
-            { icon: "🥂", texte: "Hâte de vivre encore des dizaines d'aventures, de restos et de fous rires à vos côtés." },
-            { icon: "👑", texte: "Rappel officiel : vous êtes une femme incroyable, ne laissez jamais le doute vous faire croire le contraire." }
+            { icon: "une pensée", texte: "Je suis votre fan numéro un, et j’ai mille raisons de l’être" },
+            { icon: "des encouragements", texte: "Ne lâchez rien, vous êtes la meilleure" },
+            { icon: "un petit compliment", texte: "Vous êtes si solaire qu’il me suffit de vous voir pour réchauffer mon cœur" },
+            { icon: "une anecdote", texte: "'Beauty privilège – fais pas genre que tu n’en as pas… (là j’avoue tu m’as bien eu)" },
+            { icon: "des encouragements", texte: "Bien que vous soyez indépendante, n’hésitez pas à demander de l’aide. Il n’y a aucune honte à cela" },
+            { icon: "une pensée", texte: "Je crois en nous, en ce que nous construisons et en ce que nous voulons construire" },
+            { icon: "un autre compliment", texte: "Votre regard lors de nos discussions est si envoutant qu’il m’empêche de réfléchir" },
+            { icon: "petite anecdote", texte: "Je te donne les œufs, mais je ne reste que « 20 secondes »" },
+            { icon: "je pense à vous tellement souvent", texte: "Les plus beaux moments de ma journée, aussi courts soient-ils, sont ceux passés à vos côtés" },
+            { icon: "des encouragements", texte: "Perspicace, cultivée, déterminée, élégante, avec du caractère. Vous êtes une grande dame (et je ne parle pas de votre mètre quatre-vingts (soixante-dix-neuf))" },
+            { icon: "j'ai pas mal rigolé en y repensant", texte: "Ne regardes pas tes pieds quand tu danses, regardes moi plutôt " },
+            { icon: "je ne vous ferai jamais assez de compliments", texte: "Vous êtes d’une beauté ineffable" },
+            { icon: "des encouragements", texte: "Votre détermination sans limite m’inspire plus que vous ne pouvez le penser" },
+            { icon: "vous pensez que je vais arrêter de penser à vous? (pour rien au monde)", texte: "Je suis là pour vous Ma Dame. Sachez que vous pouvez tout me dire, sans exception" },
+            { icon: "un dernier pour la route", texte: "Votre visage angélique me donne envie de vous chérir indéfiniment" }
         ];
 
         let restants = [...MOTS_DOUX];
