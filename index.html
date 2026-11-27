@@ -604,12 +604,12 @@
         // ==========================================
         
         // Mets true pour tester toutes les cases en novembre, puis false avant le 1er décembre !
-        const MODE_TEST = true; 
+        const MODE_TEST = false; 
 
         const MOTS_CLES = {
-            q1: ["pull en laine", "pull en laine bleue", "pull en laine bleu", "pull bleu"],
-            q2: ["1 octobre", "premier octobre", "01/10", "01/10/2026", "1 octobre 2026", "premier octobre 2026"],
-            q3: ["oui, depuis 18 novembre"]
+            q1: ["pull en laine", "pull en laine bleue", "pull en laine bleu", "pull bleu", "pull", "pull cotelé", "pull cotelé bleu","pull en laine cotelée"],
+            q2: ["1 octobre", "premier octobre", "01/10", "01/10/2026", "1 octobre 2026", "premier octobre 2026", "01 octobre"],
+            q3: ["oui, depuis le 18 novembre"]
         };
 
         const cadeaux = {
@@ -631,7 +631,7 @@
             16: { titre: "Livraison surprise", texte: "Il se peut que quelqu'un vous appelle ou sonne à votre porte. Alors soyez attentive pour ne pas louper votre cadeau" },
             17: { titre: "La surprise pour Ma Dame", texte: "Indice: Devenez une héroïne de film pendant 15 min" },
             18: { titre: "Bien-être mental, bis, le retour, la version V2", texte: "Bon vous l'avez compris aujourd'hui vous êtes à l'honneur. Lisez autant de compliments et de petits mots doux que vous le désirez" },
-            19: { titre: "On sort le grand jeu?", texte: "Aujourd'hui, vous allez devoir réfléchir pour obtenir votre cadeau. Oui, il se mérite. Première énigme: Sortez prendre l'air. Pour trouver votre premier indice, retournez au point zéro : là où les Food Runners se croisent et où nous avons bu notre premier verre (c'était un mardi soir). Une fois sur place, adoptez le réflexe d'une architecte d'intérieur : ne regardez pas le menu, observez l'enveloppe du bâtiment. Comptez le nombre de grandes doubles portes sur la façade principale. Si ce nombre est pair, dirigez-vous vers le meilleur des bars pour danser. Si ce nombre est impair, dirigez-vous vers l'Arc de Triomphe. Une fois arrivée, envoyez-moi une photo du monument pour débloquer la suite du plan."},
+            19: { titre: "On sort le grand jeu ?", texte: "Aujourd'hui, vous allez devoir réfléchir pour obtenir votre cadeau. Oui, il se mérite. Première énigme: sortez prendre l'air. Pour trouver votre premier indice, quel est le restaurant préféré de Christelle (elle a des parts dedans) et en même temps mon pire cauchemar ? Dîtes moi combien de 's' comptez-vous dans leur nom? J'attends votre message pour 19h30. (Pensez à bien vous habiller)"},
             20: { titre: "Une belle matinée d'hiver", texte: "Je vous réserve votre repas préféré. Attendez-moi là le temps que je vous le prépare" },
             21: { titre: "Compte-gouttes", texte: "Et oui, je vous avais prévenue, ils arrivent au fur et à mesure. Mais au moins vous pouvez penser à moi lorsque vous en prenez avec votre famille par exemple" },
             22: { titre: "Préparation", texte: "Bien que vous soyez sublime, il faut se préparer pour le réveillon. Quoi de mieux que de la skincare pour embellir votre peau? Elle se trouve peut-être dans une poche de vos affaires" },
